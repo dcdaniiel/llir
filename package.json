@@ -1,0 +1,41 @@
+{
+  "name": "dot-collector",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "dev:debug": "nodemon --inspect src/server.js",
+    "tests": "export test_persist_option='knex' && jest --runInBand --detectOpenHandles",
+    "tests-memory": "export test_persist_option='memory' && jest -i",
+    "seeds": "knex --env ${NODE_ENV} --knexfile knexfile.js seed:run",
+    "migrations": "knex --env ${NODE_ENV} --knexfile knexfile.js migrate:latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dcdaniiel/dot-collector.git"
+  },
+  "author": "Daniel Teixeira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dcdaniiel/dot-collector/issues"
+  },
+  "homepage": "https://github.com/dcdaniiel/dot-collector#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "knex": "^0.21.5",
+    "lodash": "^4.17.20",
+    "pg": "^8.3.3",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.5.2",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.2"
+  }
+}

@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: "dot-collector"
+      POSTGRES_USER: "daniel"
+      POSTGRES_PASSWORD: "sehl0k"
+    ports:
+      - "5432:5432"
