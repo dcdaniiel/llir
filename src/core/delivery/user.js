@@ -38,14 +38,14 @@ class User extends PersistedEntity {
     return undefined;
   }
 
-  constructor(name, email, phone, birthdate, password) {
+  constructor(name, email, phone, password, birthdate) {
     super();
 
     this._name = name;
     this._email = email;
     this._phone = phone;
-    this._birthdate = birthdate;
     this._password = password;
+    this._birthdate = birthdate;
   }
 
   get id() {
@@ -62,6 +62,18 @@ class User extends PersistedEntity {
 
   get phone() {
     return this._phone;
+  }
+
+  set name(name) {
+    this._name = name;
+  }
+
+  set email(email) {
+    this._email = email;
+  }
+
+  set phone(phone) {
+    this._phone = phone;
   }
 }
 

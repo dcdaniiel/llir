@@ -43,9 +43,7 @@ class KnexPersist {
   }
 
   async _update(obj_id, obj) {
-    return this._db(this._table)
-      .where('id', obj_id)
-      .update({ ...obj, updated_at: new Date() });
+    return this._db(this._table).where('id', obj_id).update(obj);
   }
 }
 
