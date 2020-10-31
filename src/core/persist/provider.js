@@ -1,3 +1,4 @@
+const { UserKnexPersist } = require('./knex');
 const { PersistorSingleton } = require('./persist');
 
 class PersistorProvider {
@@ -9,9 +10,10 @@ class PersistorProvider {
 
     switch (persist_mode) {
       case 'knex':
-        // eslint-disable-next-line no-case-declarations
         const db = args[0];
-        class_map = {};
+        class_map = {
+          User: [UserKnexPersist, db],
+        };
         break;
       case 'memory':
         class_map = {};

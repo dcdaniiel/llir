@@ -1,3 +1,5 @@
+const { User } = require('../delivery');
+
 class KnexPersist {
   constructor(db, class_, table) {
     this._db = db;
@@ -41,10 +43,16 @@ class KnexPersist {
   }
 
   async _update(obj_id, obj) {
-    return this._db(this._table).where('id', obj_id).update(obj);
+    return this._db(this._table)
+      .where('id', obj_id)
+      .update({ ...obj, updated_at: new Date() });
   }
 }
 
-module.exports = {
-  KnexPersist,
-};
+class UserKnexPersist extends KnexPersist {
+  constructor(db) {
+    super(db, User, 'users');
+  }
+}
+
+module.exports = { UserKnexPersist };
