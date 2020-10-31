@@ -4,8 +4,8 @@ services:
   postgres:
     image: postgres
     environment:
-      POSTGRES_DB: "dot-collector"
-      POSTGRES_USER: "daniel"
-      POSTGRES_PASSWORD: "sehl0k"
+      POSTGRES_DB: "llir"
+      POSTGRES_USER: "docker"
+      POSTGRES_PASSWORD: "docker"
     ports:
       - "5432:5432"

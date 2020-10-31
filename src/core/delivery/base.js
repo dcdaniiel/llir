@@ -1,5 +1,5 @@
 const { v1: uuid } = require('uuid');
-const { PersistorSingleton } = require('./persist/persist');
+const { PersistorSingleton } = require('../persist/persist');
 
 class BaseEntity {
   static serialize(instance) {
@@ -13,6 +13,7 @@ class BaseEntity {
   constructor() {
     this._id = uuid();
     this._created_at = new Date();
+    this._updated_at = new Date();
   }
 
   get id() {
@@ -66,7 +67,4 @@ class PersistedEntity extends BaseEntity {
   }
 }
 
-module.exports = {
-  BaseEntity,
-  PersistedEntity,
-};
+module.exports = { PersistedEntity };
