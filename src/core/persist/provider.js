@@ -1,4 +1,5 @@
 const { UserKnexPersist } = require('./knex');
+const { UsersMemoryPersist } = require('./memory');
 const { PersistorSingleton } = require('./persist');
 
 class PersistorProvider {
@@ -16,7 +17,9 @@ class PersistorProvider {
         };
         break;
       case 'memory':
-        class_map = {};
+        class_map = {
+          User: [UsersMemoryPersist],
+        };
         break;
       default:
         throw Error('Invalid persist mode');

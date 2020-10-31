@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const assert = require('assert');
+const { User } = require('../delivery');
 
 class MemoryPersist {
   constructor(class_) {
@@ -52,4 +53,23 @@ class MemoryPersist {
   }
 }
 
-module.exports = { MemoryPersist };
+class UsersMemoryPersist extends MemoryPersist {
+  get instance() {
+    return this._instance;
+  }
+
+  set instance(instance) {
+    this._instance = instance;
+  }
+
+  constructor() {
+    super(User);
+    if (UsersMemoryPersist.instance) {
+      return UsersMemoryPersist.instance;
+    }
+
+    UsersMemoryPersist.instance = this;
+  }
+}
+
+module.exports = { UsersMemoryPersist };
