@@ -10,10 +10,11 @@ class User extends PersistedEntity {
       id: activity._id,
       created_at: activity._created_at,
       updated_at: activity._updated_at,
-      avatar_id: activity._avatar_id,
       name: activity._name,
       email: activity._email,
       phone: activity._phone,
+      password: activity._password,
+      birthdate: activity._birthdate,
     };
   }
 
@@ -23,7 +24,8 @@ class User extends PersistedEntity {
         serialized.name,
         serialized.email,
         serialized.phone,
-        serialized.avatar_id
+        serialized.password,
+        serialized.birthdate
       );
 
       user._id = serialized.id;
@@ -36,13 +38,18 @@ class User extends PersistedEntity {
     return undefined;
   }
 
-  constructor(name, email, phone, avatar_id) {
+  constructor(name, email, phone, birthdate, password) {
     super();
 
     this._name = name;
     this._email = email;
     this._phone = phone;
-    this._avatar_id = avatar_id;
+    this._birthdate = birthdate;
+    this._password = password;
+  }
+
+  get id() {
+    return this._id;
   }
 
   get name() {

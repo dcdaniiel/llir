@@ -1,12 +1,12 @@
 exports.up = function (knex) {
   return knex.schema.createTable('users', (table) => {
     table.uuid('id').primary();
-    table.string('name').notNullable();
-    table.string('phone').notNullable().unique();
-    table.string('email').notNullable().unique();
-    table.string('password').notNullable();
-    table.timestamp('created_at').notNullable();
-    table.timestamp('updated_at').notNullable();
+    table.string('name', 255).notNullable();
+    table.string('phone', 20).notNullable().unique();
+    table.string('email', 50).notNullable().unique();
+    table.string('password', 20).notNullable();
+    table.timestamp('birthdate').notNullable();
+    table.timestamps(true);
   });
 };
 
