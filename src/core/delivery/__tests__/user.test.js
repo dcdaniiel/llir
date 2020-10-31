@@ -63,4 +63,26 @@ describe('User', () => {
     expect(updateUser.id).toBe(user.id);
     expect(updateUser.name).not.toEqual(user.name);
   });
+
+  it('delete user', async () => {
+    const user = new User(
+      'create_user',
+      'email',
+      'phone',
+      'PASSWD',
+      new Date()
+    );
+
+    await user.save();
+
+    const fetchUser = await User.fetch(user.id);
+
+    expect(fetchUser.id).toBe(user.id);
+
+    await User.delete(fetchUser.id);
+
+    const exist = await User.fetch(user.id);
+
+    expect(exist).toBeFalsy();
+  });
 });
