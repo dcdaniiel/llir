@@ -52,42 +52,12 @@ class Company extends PersistedEntity {
     const schemaValidator = Ajv();
 
     const schema = {
+      type: 'object',
       properties: {
         days: {
           type: 'array',
           items: {
             type: 'object',
-            items: {
-              properties: {
-                day: {
-                  type: 'string',
-                  format: 'date',
-                },
-                delivery_hour: {
-                  type: 'object',
-                  items: {
-                    properties: {
-                      day: {
-                        type: 'string',
-                      },
-                      delivery_hour: {
-                        type: 'object',
-                        items: {
-                          properties: {
-                            start: {
-                              type: 'string',
-                            },
-                            end: {
-                              type: 'string',
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
           },
         },
       },
@@ -97,7 +67,7 @@ class Company extends PersistedEntity {
 
     const valid = validator(obj);
 
-    return valid ? JSON.stringify(obj) : null;
+    return valid ? obj : null;
   }
 
   set user_id(id) {

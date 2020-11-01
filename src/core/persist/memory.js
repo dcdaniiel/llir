@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const assert = require('assert');
-const { User, Company } = require('../delivery');
+const { User, Company, Image } = require('../delivery');
 
 class MemoryPersist {
   constructor(class_) {
@@ -77,4 +77,14 @@ class CompanyMemoryPersist extends MemoryPersist {
     super(db, Company, 'companies');
   }
 }
-module.exports = { UsersMemoryPersist, CompanyMemoryPersist };
+
+class ImageMemoryPersist extends MemoryPersist {
+  constructor(db) {
+    super(db, Image, 'images');
+  }
+}
+module.exports = {
+  UsersMemoryPersist,
+  CompanyMemoryPersist,
+  ImageMemoryPersist,
+};
