@@ -5,16 +5,16 @@ class User extends PersistedEntity {
     return User;
   }
 
-  static serialize(activity) {
+  static serialize(obj) {
     return {
-      id: activity._id,
-      created_at: activity._created_at,
-      updated_at: activity._updated_at,
-      name: activity._name,
-      email: activity._email,
-      phone: activity._phone,
-      password: activity._password,
-      birthdate: activity._birthdate,
+      id: obj._id,
+      created_at: obj._created_at,
+      updated_at: obj._updated_at,
+      name: obj._name,
+      email: obj._email,
+      phone: obj._phone,
+      password: obj._password,
+      birthdate: obj._birthdate,
     };
   }
 
