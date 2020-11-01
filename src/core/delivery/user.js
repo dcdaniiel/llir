@@ -46,6 +46,7 @@ class User extends PersistedEntity {
     this._phone = phone;
     this._password = password;
     this._birthdate = birthdate;
+    this._avatar_id = null;
   }
 
   get id() {
@@ -70,6 +71,10 @@ class User extends PersistedEntity {
 
   set email(email) {
     this._email = email;
+  }
+
+  set avatar_id(id) {
+    this._avatar_id = id;
   }
 
   set phone(phone) {

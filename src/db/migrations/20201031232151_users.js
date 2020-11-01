@@ -1,6 +1,7 @@
 exports.up = (knex) =>
   knex.schema.createTable('users', (table) => {
     table.uuid('id').primary();
+    table.uuid('avatar_id').references('images.id');
     table.string('name', 255).notNullable();
     table.string('email', 50).notNullable().unique();
     table.string('phone', 20).notNullable().unique();

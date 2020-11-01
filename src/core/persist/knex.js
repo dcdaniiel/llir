@@ -1,4 +1,4 @@
-const { User } = require('../delivery');
+const { User, Company } = require('../delivery');
 
 class KnexPersist {
   constructor(db, class_, table) {
@@ -53,4 +53,10 @@ class UserKnexPersist extends KnexPersist {
   }
 }
 
-module.exports = { UserKnexPersist };
+class CompanyKnexPersist extends KnexPersist {
+  constructor(db) {
+    super(db, Company, 'companies');
+  }
+}
+
+module.exports = { UserKnexPersist, CompanyKnexPersist };
