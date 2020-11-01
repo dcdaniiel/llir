@@ -1,5 +1,5 @@
 const { UserKnexPersist, CompanyKnexPersist } = require('./knex');
-const { UsersMemoryPersist } = require('./memory');
+const { UsersMemoryPersist, CompanyMemoryPersist } = require('./memory');
 const { PersistorSingleton } = require('./persist');
 
 class PersistorProvider {
@@ -20,6 +20,7 @@ class PersistorProvider {
       case 'memory':
         class_map = {
           User: [UsersMemoryPersist],
+          Company: [CompanyMemoryPersist],
         };
         break;
       default:
