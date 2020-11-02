@@ -5,6 +5,7 @@ const {
   Address,
   Role,
   ClientsCompanies,
+  Product,
 } = require('../delivery');
 
 class KnexPersist {
@@ -64,6 +65,10 @@ class CompanyKnexPersist extends KnexPersist {
   constructor(db) {
     super(db, Company, 'companies');
   }
+
+  async find_cod(cod) {
+    return this._db(this._table).where('cod', cod).first();
+  }
 }
 
 class ImageKnexPersist extends KnexPersist {
@@ -89,6 +94,13 @@ class ClientsCompaniesKnexPersist extends KnexPersist {
     super(db, ClientsCompanies, 'clients_companies');
   }
 }
+
+class ProductKnexPersist extends KnexPersist {
+  constructor(db) {
+    super(db, Product, 'products');
+  }
+}
+
 module.exports = {
   UserKnexPersist,
   CompanyKnexPersist,
@@ -96,4 +108,5 @@ module.exports = {
   AddressKnexPersist,
   RoleKnexPersist,
   ClientsCompaniesKnexPersist,
+  ProductKnexPersist,
 };

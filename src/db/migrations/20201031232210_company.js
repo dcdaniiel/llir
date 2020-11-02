@@ -8,8 +8,9 @@ exports.up = (knex) =>
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
     table.uuid('avatar_id').references('images.id').onUpdate('CASCADE');
-    table.text('name', 255).notNullable();
-    table.text('phone', 20).notNullable();
+    table.string('name', 255).unique().notNullable();
+    table.string('cod', 255).unique().notNullable();
+    table.string('phone', 20).notNullable();
     table.jsonb('available_days').notNullable();
     table.timestamps(true);
   });

@@ -32,28 +32,29 @@ describe('Company', () => {
   it('create a company', async () => {
     const user = await new User(
       'user_test',
-      'cpf',
-      'e@asd.com',
-      '15123123',
+      'cpf1',
+      'e@as2d.com',
+      '151232123',
       'PASSWD',
       new Date()
     ).save();
 
-    const company = new Company(
-      'company_name',
+    const comp1 = await new Company(
+      'Lia fruit',
       'phone',
       available_days,
       user.id
     );
+    comp1.cod = Company.cod_generator(comp1.name);
+    await comp1.save();
 
-    const data = await company.save(
-      'company_name',
-      'phone',
-      available_days,
-      user.id
-    );
+    const comp2 = new Company('Lima fruit', 'phone', available_days, user.id);
 
-    expect(data.id).toBe(company.id);
+    comp2.cod = Company.cod_generator(comp2.name);
+
+    const data = await comp2.save();
+
+    expect(data.id).toBe(comp2.id);
   });
 
   it('update company', async () => {
@@ -66,12 +67,15 @@ describe('Company', () => {
       new Date()
     ).save();
 
-    const company = await new Company(
+    const company = new Company(
       'company_name',
       'phone',
       available_days,
       user.id
-    ).save();
+    );
+    company.cod = Company.cod_generator(company.name);
+
+    await company.save();
 
     const fetchCompany = await Company.fetch(company.id);
     fetchCompany.name = 'update_name';
@@ -90,12 +94,10 @@ describe('Company', () => {
       new Date()
     ).save();
 
-    const company = await new Company(
-      'company_name',
-      'phone',
-      available_days,
-      user.id
-    ).save();
+    const company = new Company('lima', 'phone', available_days, user.id);
+    company.cod = Company.cod_generator(company.name);
+
+    await company.save();
 
     const fetchCompany = await Company.fetch(company.id);
 

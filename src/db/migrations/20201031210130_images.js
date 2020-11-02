@@ -1,7 +1,7 @@
 exports.up = (knex) =>
   knex.schema.createTable('images', (table) => {
     table.uuid('id').primary();
-    table.text('source').notNullable();
+    table.string('source').notNullable();
     table.timestamps(true);
   });
 

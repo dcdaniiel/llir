@@ -1,4 +1,5 @@
 const Ajv = require('ajv');
+const { format } = require('date-fns');
 const { PersistedEntity } = require('./base');
 
 class Company extends PersistedEntity {
@@ -13,6 +14,7 @@ class Company extends PersistedEntity {
       avatar_id: obj._avatar_id,
       name: obj._name,
       phone: obj._phone,
+      cod: obj._cod,
       available_days: obj._available_days,
       created_at: obj._created_at,
       updated_at: obj._updated_at,
@@ -30,6 +32,7 @@ class Company extends PersistedEntity {
       );
 
       company._id = serialized.id;
+      company._cod = serialized.cod;
       company._created_at = serialized.created_at;
       company._updated_at = serialized.updated_at;
 
@@ -46,6 +49,32 @@ class Company extends PersistedEntity {
     this._available_days = this.validate_days(available_days);
     this._user_id = user_id;
     this._avatar_id = avatar_id;
+    this._cod = null;
+  }
+
+  static cod_generator(word) {
+    const random_int = (word_max) => {
+      const min = Math.ceil(2);
+      const max = Math.floor(word_max);
+      return Math.floor(Math.random() * (max - min)) + min;
+    };
+    const date = new Date();
+    const millisecond = format(date, 'SSS');
+    const letter = word.charAt(
+      Math.ceil(word.length / random_int(word.length))
+    );
+    const divMilli = Math.ceil(millisecond / random_int(word.length) + 2);
+
+    return `${millisecond}${word.substring(0, 2)}${divMilli}${word.substring(
+      word.length - 1,
+      word.length
+    )}${letter === '' ? word.charAt(0) : letter}`
+      .toUpperCase()
+      .trim();
+  }
+
+  set cod(cod) {
+    this._cod = cod;
   }
 
   validate_days(obj) {
@@ -88,6 +117,10 @@ class Company extends PersistedEntity {
 
   set name(name) {
     this._name = name;
+  }
+
+  get cod() {
+    return this._cod;
   }
 
   get name() {
