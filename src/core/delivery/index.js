@@ -7,6 +7,7 @@ const { ClientsCompanies } = require('./clients_companies');
 const { Product } = require('./products');
 const { ProductImages } = require('./product_images');
 const { Payment } = require('./payment');
+const { Order } = require('./order');
 
 module.exports = {
   User,
@@ -19,4 +20,5 @@ module.exports = {
   Product,
   ProductImages,
   Payment,
+  Order,
 };

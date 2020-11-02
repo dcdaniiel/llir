@@ -8,6 +8,7 @@ const {
   ProductKnexPersist,
   ProductImagesKnexPersist,
   PaymentKnexPersist,
+  OrderKnexPersist,
 } = require('./knex');
 
 const {
@@ -20,6 +21,7 @@ const {
   ProductMemoryPersist,
   ProductImagesMemoryPersist,
   PaymentMemoryPersist,
+  OrderMemoryPersist,
 } = require('./memory');
 
 const { PersistorSingleton } = require('./persist');
@@ -44,6 +46,7 @@ class PersistorProvider {
           Product: [ProductKnexPersist, db],
           ProductImages: [ProductImagesKnexPersist, db],
           Payment: [PaymentKnexPersist, db],
+          Order: [OrderKnexPersist, db],
         };
         break;
       case 'memory':
@@ -57,6 +60,7 @@ class PersistorProvider {
           Product: [ProductMemoryPersist],
           ProductImages: [ProductImagesMemoryPersist],
           Payment: [PaymentMemoryPersist],
+          Order: [OrderMemoryPersist],
         };
         break;
       default:
