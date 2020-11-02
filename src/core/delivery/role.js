@@ -22,6 +22,9 @@ class Role extends PersistedEntity {
   static serialize(obj) {
     return {
       id: obj._id,
+      role: obj._role,
+      created_at: obj._created_at,
+      updated_at: obj._updated_at,
     };
   }
 

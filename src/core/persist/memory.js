@@ -8,6 +8,8 @@ const {
   Role,
   ClientsCompanies,
   Product,
+  ProductImages,
+  Payment,
 } = require('../delivery');
 
 class MemoryPersist {
@@ -116,6 +118,18 @@ class ProductMemoryPersist extends MemoryPersist {
   }
 }
 
+class ProductImagesMemoryPersist extends MemoryPersist {
+  constructor(db) {
+    super(db, ProductImages, 'product_images');
+  }
+}
+
+class PaymentMemoryPersist extends MemoryPersist {
+  constructor(db) {
+    super(db, Payment, 'payments');
+  }
+}
+
 module.exports = {
   UsersMemoryPersist,
   CompanyMemoryPersist,
@@ -124,4 +138,6 @@ module.exports = {
   RoleMemoryPersist,
   ClientsCompaniesMemoryPersist,
   ProductMemoryPersist,
+  ProductImagesMemoryPersist,
+  PaymentMemoryPersist,
 };

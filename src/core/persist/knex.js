@@ -7,6 +7,7 @@ const {
   ClientsCompanies,
   Product,
   ProductImages,
+  Payment,
 } = require('../delivery');
 
 class KnexPersist {
@@ -108,6 +109,12 @@ class ProductImagesKnexPersist extends KnexPersist {
   }
 }
 
+class PaymentKnexPersist extends KnexPersist {
+  constructor(db) {
+    super(db, Payment, 'payments');
+  }
+}
+
 module.exports = {
   UserKnexPersist,
   CompanyKnexPersist,
@@ -117,4 +124,5 @@ module.exports = {
   ClientsCompaniesKnexPersist,
   ProductKnexPersist,
   ProductImagesKnexPersist,
+  PaymentKnexPersist,
 };
