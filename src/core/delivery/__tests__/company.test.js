@@ -32,6 +32,7 @@ describe('Company', () => {
   it('create a company', async () => {
     const user = await new User(
       'user_test',
+      'cpf',
       'e@asd.com',
       '15123123',
       'PASSWD',
@@ -58,6 +59,7 @@ describe('Company', () => {
   it('update company', async () => {
     const user = await new User(
       'create_user',
+      'cpf',
       'email',
       'phone',
       'PASSWD',
@@ -81,6 +83,7 @@ describe('Company', () => {
   it('delete company', async () => {
     const user = await new User(
       'user_test',
+      'cpf',
       'e@asd.com',
       '15123123',
       'PASSWD',

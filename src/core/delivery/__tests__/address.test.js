@@ -4,9 +4,11 @@ const { persist_options } = require('../../settings');
 
 const _clean = async () => {
   const persistor = PersistorProvider.getPersistor(...persist_options);
+  const company = persistor.getPersistInstance('Company');
   const address = persistor.getPersistInstance('Address');
   const user = persistor.getPersistInstance('User');
 
+  // await company.deleteAll();
   await address.deleteAll();
   await user.deleteAll();
 };
@@ -24,6 +26,7 @@ describe('Address', () => {
   it('create a address', async () => {
     const user = await new User(
       'create_user',
+      'cpf',
       'email',
       'phone',
       'PASSWD',
@@ -50,6 +53,7 @@ describe('Address', () => {
   it('update address', async () => {
     const user = await new User(
       'create_user',
+      'cpf',
       'email',
       'phone',
       'PASSWD',
@@ -86,6 +90,7 @@ describe('Address', () => {
   it('delete user', async () => {
     const user = new User(
       'create_user',
+      'cpf',
       'email',
       'phone',
       'PASSWD',

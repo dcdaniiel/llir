@@ -21,4 +21,4 @@ exports.up = (knex) =>
       .onDelete('CASCADE');
     table.timestamps(true);
   });
-exports.down = (knex) => knex.schema.dropTable('clients_company');
+exports.down = (knex) => knex.schema.dropTable('clients_companies');

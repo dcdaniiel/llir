@@ -11,6 +11,7 @@ class User extends PersistedEntity {
       created_at: obj._created_at,
       updated_at: obj._updated_at,
       name: obj._name,
+      cpf: obj._cpf,
       email: obj._email,
       phone: obj._phone,
       password: obj._password,
@@ -22,6 +23,7 @@ class User extends PersistedEntity {
     if (serialized) {
       const user = new User(
         serialized.name,
+        serialized.cpf,
         serialized.email,
         serialized.phone,
         serialized.password,
@@ -38,10 +40,11 @@ class User extends PersistedEntity {
     return undefined;
   }
 
-  constructor(name, email, phone, password, birthdate) {
+  constructor(name, cpf, email, phone, password, birthdate) {
     super();
 
     this._name = name;
+    this._cpf = cpf;
     this._email = email;
     this._phone = phone;
     this._password = password;
@@ -57,6 +60,10 @@ class User extends PersistedEntity {
     return this._name;
   }
 
+  get cpf() {
+    return this._cpf;
+  }
+
   get email() {
     return this._email;
   }
@@ -67,6 +74,10 @@ class User extends PersistedEntity {
 
   set name(name) {
     this._name = name;
+  }
+
+  set cpf(cpf) {
+    this._cpf = cpf;
   }
 
   set email(email) {

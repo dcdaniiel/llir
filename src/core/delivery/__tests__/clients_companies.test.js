@@ -38,6 +38,7 @@ describe('Client Companies', () => {
   it('create a client company relation', async () => {
     const user = await new User(
       'create_user',
+      'cpf',
       'email',
       'phone',
       'PASSWD',
@@ -64,6 +65,7 @@ describe('Client Companies', () => {
   it('delete client company relation', async () => {
     const user = await new User(
       'create_user',
+      'cpf',
       'email',
       'phone',
       'PASSWD',

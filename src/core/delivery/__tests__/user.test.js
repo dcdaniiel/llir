@@ -28,6 +28,7 @@ describe('User', () => {
   it('create a user', async () => {
     const user = new User(
       'create_user',
+      'cpf',
       'email',
       'phone',
       'PASSWD',
@@ -44,6 +45,7 @@ describe('User', () => {
   it('update user', async () => {
     const user = new User(
       'create_user',
+      'cpf',
       'email',
       'phone',
       'PASSWD',
@@ -67,6 +69,7 @@ describe('User', () => {
   it('delete user', async () => {
     const user = new User(
       'create_user',
+      'cpf',
       'email',
       'phone',
       'PASSWD',
