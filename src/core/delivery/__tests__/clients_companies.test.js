@@ -46,12 +46,15 @@ describe('Client Companies', () => {
     ).save();
 
     const role = await new Role(RoleTypes.CLIENT()).save();
-    const company = await new Company(
+    const company = new Company(
       'company_name',
       'phone',
       available_days,
       user.id
-    ).save();
+    );
+    company.cod = Company.cod_generator(company.name);
+
+    await company.save();
 
     const cp = await new ClientsCompanies(role.id, user.id, company.id).save();
 
@@ -78,7 +81,11 @@ describe('Client Companies', () => {
       'phone',
       available_days,
       user.id
-    ).save();
+    );
+
+    company.cod = Company.cod_generator(company.name);
+
+    await company.save();
 
     const cp = await new ClientsCompanies(role.id, user.id, company.id).save();
 

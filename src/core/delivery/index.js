@@ -5,6 +5,7 @@ const { Address } = require('./address');
 const { Role, RoleTypes } = require('./role');
 const { ClientsCompanies } = require('./clients_companies');
 const { Product } = require('./products');
+const { ProductImages } = require('./product_images');
 
 module.exports = {
   User,
@@ -15,4 +16,5 @@ module.exports = {
   RoleTypes,
   ClientsCompanies,
   Product,
+  ProductImages,
 };

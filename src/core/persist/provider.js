@@ -6,6 +6,7 @@ const {
   RoleKnexPersist,
   ClientsCompaniesKnexPersist,
   ProductKnexPersist,
+  ProductImagesKnexPersist,
 } = require('./knex');
 
 const {
@@ -38,6 +39,7 @@ class PersistorProvider {
           Role: [RoleKnexPersist, db],
           ClientsCompanies: [ClientsCompaniesKnexPersist, db],
           Product: [ProductKnexPersist, db],
+          ProductImages: [ProductImagesKnexPersist, db],
         };
         break;
       case 'memory':
@@ -48,6 +50,7 @@ class PersistorProvider {
           Address: [AddressMemoryPersist],
           Role: [RoleMemoryPersist],
           ClientsCompanies: [ClientsCompaniesMemoryPersist],
+          Product: [ProductMemoryPersist],
         };
         break;
       default:
