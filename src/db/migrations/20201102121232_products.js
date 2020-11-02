@@ -8,7 +8,7 @@ exports.up = (knex) =>
       .onDelete('CASCADE')
       .onUpdate('CASCADE');
     table.string('name', 100).notNullable();
-    table.string('price', 10).notNullable();
+    table.float('price', 10).notNullable();
     table.string('type', 10);
     table.string('category', 20).notNullable();
   });
