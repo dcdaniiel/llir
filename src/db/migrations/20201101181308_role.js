@@ -1,7 +1,7 @@
 exports.up = (knex) =>
   knex.schema.createTable('roles', (table) => {
     table.uuid('id').primary();
-    table.uuid('role');
+    table.string('role').notNullable();
     table.timestamps(true);
   });
 

@@ -1,6 +1,6 @@
 const { User } = require('../index');
 const { PersistorProvider } = require('../../persist');
-const { persist_options } = require('../../settings');
+const { persist_options } = require('../../../settings');
 
 const _clean = async () => {
   const persistor = PersistorProvider.getPersistor(...persist_options);

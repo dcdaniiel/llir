@@ -1,4 +1,4 @@
-const { abstractFactory } = require('../utils/abstractFactory');
+const { abstractFactory } = require('../../utils/abstractFactory');
 
 class PersistorSingleton {
   static get instance() {

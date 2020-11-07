@@ -1,6 +1,6 @@
 const { User, Company, Product, Order, Payment } = require('../index');
 const { PersistorProvider } = require('../../persist');
-const { persist_options } = require('../../settings');
+const { persist_options } = require('../../../settings');
 
 const available_days = {
   days: [

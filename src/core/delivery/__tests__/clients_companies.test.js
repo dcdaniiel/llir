@@ -6,7 +6,7 @@ const {
   RoleTypes,
 } = require('../index');
 const { PersistorProvider } = require('../../persist');
-const { persist_options } = require('../../settings');
+const { persist_options } = require('../../../settings');
 
 const available_days = {
   days: [{ day: new Date(), delivery_hour: { start: '8:00', end: '18:00' } }],
@@ -46,6 +46,7 @@ describe('Client Companies', () => {
     ).save();
 
     const role = await new Role(RoleTypes.CLIENT()).save();
+
     const company = new Company(
       'company_name',
       'phone',
