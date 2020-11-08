@@ -134,7 +134,7 @@ class OrderKnexPersist extends KnexPersist {
 
       if (items.length) {
         const [order_data] = await trx(this._table).insert(order, '*');
-        const order_detail = await Promise.all(
+        await Promise.all(
           items.map(({ name, price, type, category, quantity }) =>
             trx('order_detail').insert(
               OrderDetail.serialize(
@@ -151,8 +151,7 @@ class OrderKnexPersist extends KnexPersist {
             )
           )
         );
-        console.log('ID::: ', order_data, order_detail);
-        return {};
+        return 'Order successfully created!';
       }
 
       throw Error('Missing order items!');
