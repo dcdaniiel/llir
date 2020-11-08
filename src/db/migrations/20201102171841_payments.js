@@ -10,7 +10,7 @@ exports.up = (knex) =>
     table.boolean('enabled').notNullable();
     table.string('payment_type', 100).notNullable();
     table.string('description', 150);
-    table.timestamps(true);
+    table.timestamps(true, true);
   });
 
 exports.down = (knex) => knex.schema.dropTable('payments');

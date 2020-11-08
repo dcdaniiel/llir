@@ -16,7 +16,7 @@ exports.up = (knex) =>
     table.string('city', 20).notNullable();
     table.string('district', 20).notNullable();
     table.string('description', 150).notNullable();
-    table.timestamps(true);
+    table.timestamps(true, true);
   });
 
 exports.down = (knex) => knex.schema.dropTable('addresses');

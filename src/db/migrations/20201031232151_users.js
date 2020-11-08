@@ -8,7 +8,7 @@ exports.up = (knex) =>
     table.string('password', 20).notNullable();
     table.string('cpf', 20).notNullable();
     table.timestamp('birthdate').notNullable();
-    table.timestamps(true);
+    table.timestamps(true, true);
   });
 
 exports.down = (knex) => knex.schema.dropTable('users');

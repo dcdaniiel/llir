@@ -17,9 +17,8 @@ exports.up = (knex) =>
     table.timestamp('delivery_day').notNullable();
     table.float('total').notNullable();
     table.string('description', 150);
-    table.jsonb('order').notNullable();
     table.string('status', 50).notNullable();
-    table.timestamps(true);
+    table.timestamps(true, true);
   });
 
 exports.down = (knex) => knex.schema.dropTable('orders');

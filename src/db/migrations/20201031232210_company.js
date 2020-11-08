@@ -12,7 +12,7 @@ exports.up = (knex) =>
     table.string('cod', 255).unique().notNullable();
     table.string('phone', 20).notNullable();
     table.jsonb('available_days').notNullable();
-    table.timestamps(true);
+    table.timestamps(true, true);
   });
 
 exports.down = (knex) => knex.schema.dropTable('companies');

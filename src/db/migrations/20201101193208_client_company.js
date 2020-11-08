@@ -19,6 +19,6 @@ exports.up = (knex) =>
       .notNullable()
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
-    table.timestamps(true);
+    table.timestamps(true, true);
   });
 exports.down = (knex) => knex.schema.dropTable('clients_companies');

@@ -13,6 +13,8 @@ class Product extends PersistedEntity {
       type: obj._type,
       category: obj._category,
       company_id: obj._company_id,
+      updated_at: obj._updated_at,
+      created_at: obj._created_at,
     };
   }
 

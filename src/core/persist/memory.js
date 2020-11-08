@@ -137,6 +137,12 @@ class OrderMemoryPersist extends MemoryPersist {
   }
 }
 
+class OrderDetailMemoryPersist extends MemoryPersist {
+  constructor(db) {
+    super(db, Order, 'order_detail');
+  }
+}
+
 module.exports = {
   UsersMemoryPersist,
   CompanyMemoryPersist,
@@ -148,4 +154,5 @@ module.exports = {
   ProductImagesMemoryPersist,
   PaymentMemoryPersist,
   OrderMemoryPersist,
+  OrderDetailMemoryPersist,
 };

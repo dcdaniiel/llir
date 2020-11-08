@@ -28,7 +28,7 @@ class Order extends PersistedEntity {
       delivery_day: obj._delivery_day,
       total: obj._total,
       description: obj._description,
-      order: obj._order,
+      items: obj._items,
       status: obj._status,
     };
   }
@@ -42,7 +42,7 @@ class Order extends PersistedEntity {
         serialized.delivery_day,
         serialized.total,
         serialized.description,
-        serialized.order,
+        serialized.items,
         serialized.status
       );
 
@@ -63,7 +63,7 @@ class Order extends PersistedEntity {
     delivery_day,
     total,
     description,
-    order,
+    items,
     status = OrderStatus.WAITING_APPROVAL()
   ) {
     super();
@@ -74,7 +74,7 @@ class Order extends PersistedEntity {
     this._delivery_day = delivery_day;
     this._total = total;
     this._description = description;
-    this._order = order;
+    this._items = items;
     this._status = status;
   }
 
@@ -84,6 +84,10 @@ class Order extends PersistedEntity {
 
   set payment_id(id) {
     this._payment_id = id;
+  }
+
+  get items() {
+    return this._items;
   }
 }
 

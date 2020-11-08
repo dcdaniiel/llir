@@ -11,7 +11,7 @@ exports.up = (knex) =>
     table.float('price', 10).notNullable();
     table.string('type', 10);
     table.string('category', 20).notNullable();
-    table.timestamps(true);
+    table.timestamps(true, true);
   });
 
 exports.down = (knex) => knex.schema.dropTable('products');

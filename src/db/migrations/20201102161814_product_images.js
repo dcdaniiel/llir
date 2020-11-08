@@ -13,7 +13,7 @@ exports.up = (knex) =>
       .onDelete('CASCADE')
       .onUpdate('CASCADE')
       .notNullable();
-    table.timestamps(true);
+    table.timestamps(true, true);
   });
 
 exports.down = (knex) => knex.schema.dropTable('product_images');

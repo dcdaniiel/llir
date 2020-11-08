@@ -9,6 +9,7 @@ const {
   ProductImages,
   Payment,
   Order,
+  OrderDetail,
 } = require('../models');
 
 class KnexPersist {
@@ -116,9 +117,46 @@ class PaymentKnexPersist extends KnexPersist {
   }
 }
 
+class OrderDetailKnexPersist extends KnexPersist {
+  constructor(db) {
+    super(db, OrderDetail, 'order_detail');
+  }
+}
+
 class OrderKnexPersist extends KnexPersist {
   constructor(db) {
     super(db, Order, 'orders');
+  }
+
+  async _create(obj) {
+    return this._db.transaction(async (trx) => {
+      const { items, ...order } = obj;
+
+      if (items.length) {
+        const [order_data] = await trx(this._table).insert(order, '*');
+        const order_detail = await Promise.all(
+          items.map(({ name, price, type, category, quantity }) =>
+            trx('order_detail').insert(
+              OrderDetail.serialize(
+                new OrderDetail(
+                  order_data.id,
+                  name,
+                  price,
+                  type,
+                  category,
+                  quantity
+                )
+              ),
+              '*'
+            )
+          )
+        );
+        console.log('ID::: ', order_data, order_detail);
+        return {};
+      }
+
+      throw Error('Missing order items!');
+    });
   }
 }
 
@@ -133,4 +171,5 @@ module.exports = {
   ProductImagesKnexPersist,
   PaymentKnexPersist,
   OrderKnexPersist,
+  OrderDetailKnexPersist,
 };

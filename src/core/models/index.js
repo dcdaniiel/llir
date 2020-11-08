@@ -8,6 +8,7 @@ const { Product } = require('./products');
 const { ProductImages } = require('./product_images');
 const { Payment } = require('./payment');
 const { Order } = require('./order');
+const { OrderDetail } = require('./order_detail');
 
 module.exports = {
   User,
@@ -21,4 +22,5 @@ module.exports = {
   ProductImages,
   Payment,
   Order,
+  OrderDetail,
 };

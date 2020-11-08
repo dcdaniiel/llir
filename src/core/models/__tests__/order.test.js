@@ -42,7 +42,7 @@ beforeEach(async () => {
   await new Product(company.id, 'uva', 9.5, 'KG', 'frutas').save();
 });
 
-describe('Product', () => {
+describe('Order', () => {
   it('constructor works', () => {
     const order = new Order('');
     expect(order).toBeInstanceOf(Order);
@@ -63,12 +63,18 @@ describe('Product', () => {
 
     const [product, ...products] = await ProductInstance.getAll();
 
+    const setQuantityProducts = [product, ...products].map((order, index) => ({
+      ...order,
+      quantity: index * 2,
+    }));
     const pay = await new Payment(
       product.company_id,
       'Cartão',
       'description',
       true
     ).save();
+
+    console.log(setQuantityProducts);
 
     const order = await new Order(
       userClient.id,
@@ -77,10 +83,58 @@ describe('Product', () => {
       new Date(),
       150.68,
       'desc',
-      { ...products },
+      setQuantityProducts,
+      'WAITING APPROVAL'
+    ).save();
+  });
+
+  it('delete a order', async () => {
+    const persistor = PersistorProvider.getPersistor(...persist_options);
+    const ProductInstance = persistor.getPersistInstance('Product');
+
+    const userClient = await new User(
+      'user_test_client',
+      'cpf',
+      'e@d.com',
+      '15123212',
+      'PASSWD',
+      new Date()
+    ).save();
+
+    const [product, ...products] = await ProductInstance.getAll();
+
+    const setQuantityProducts = [product, ...products].map((order, index) => ({
+      ...order,
+      quantity: index * 2,
+    }));
+    const pay = await new Payment(
+      product.company_id,
+      'Cartão',
+      'description',
+      true
+    ).save();
+
+    console.log(setQuantityProducts);
+
+    const order = await new Order(
+      userClient.id,
+      product.company_id,
+      pay.id,
+      new Date(),
+      150.68,
+      'desc',
+      setQuantityProducts,
       'WAITING APPROVAL'
     ).save();
 
-    console.log('ORDER::: ', order);
+    let fetchOrder = await Order.fetch(order.id);
+
+    expect(order.id).toBe(fetchOrder.id);
+
+    await Order.delete(order.id);
+
+    fetchOrder = await Order.fetch(order.id);
+
+    expect(fetchOrder).toBeFalsy();
   });
 });
