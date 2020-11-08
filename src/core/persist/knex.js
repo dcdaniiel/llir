@@ -9,7 +9,7 @@ const {
   ProductImages,
   Payment,
   Order,
-} = require('../delivery');
+} = require('../models');
 
 class KnexPersist {
   constructor(db, class_, table) {

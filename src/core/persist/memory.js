@@ -11,7 +11,7 @@ const {
   ProductImages,
   Payment,
   Order,
-} = require('../delivery');
+} = require('../models');
 
 class MemoryPersist {
   constructor(class_) {
