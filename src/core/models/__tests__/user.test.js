@@ -6,7 +6,7 @@ const _clean = async () => {
   const persistor = PersistorProvider.getPersistor(...persist_options);
   const user = persistor.getPersistInstance('User');
 
-  await user.deleteAll();
+  // await user.deleteAll();
 };
 
 beforeEach(async () => {

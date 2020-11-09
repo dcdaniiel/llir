@@ -26,7 +26,15 @@
     "date-fns": "^2.16.1",
     "dotenv": "^8.2.0",
     "eventemitter2": "^6.4.3",
+    "jwks-rsa": "^1.11.0",
     "knex": "^0.21.5",
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-json": "^2.0.2",
+    "koa-jwt": "^4.0.0",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^10.0.0",
+    "koa2-cors": "^2.0.6",
     "lodash": "^4.17.20",
     "pg": "^8.3.3",
     "uuid": "^8.3.0"
@@ -39,7 +47,7 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.5.2",
-    "nodemon": "^2.0.4",
+    "nodemon": "^2.0.6",
     "prettier": "^2.1.2"
   }
 }
