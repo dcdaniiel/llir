@@ -15,7 +15,9 @@ const _clean = async () => {
   const comp = persistor.getPersistInstance('Company');
   const user = persistor.getPersistInstance('User');
   const product = persistor.getPersistInstance('Product');
+  const order = persistor.getPersistInstance('Order');
 
+  await order.deleteAll();
   await product.deleteAll();
   await comp.deleteAll();
   await user.deleteAll();
@@ -74,9 +76,7 @@ describe('Order', () => {
       true
     ).save();
 
-    console.log(setQuantityProducts);
-
-    const order = await new Order(
+    await new Order(
       userClient.id,
       product.company_id,
       pay.id,
@@ -113,8 +113,6 @@ describe('Order', () => {
       'description',
       true
     ).save();
-
-    console.log(setQuantityProducts);
 
     const order = await new Order(
       userClient.id,
