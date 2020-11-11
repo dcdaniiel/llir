@@ -52,6 +52,7 @@ describe('Order', () => {
 
   it('create a order', async () => {
     const persistor = PersistorProvider.getPersistor(...persist_options);
+
     const ProductInstance = persistor.getPersistInstance('Product');
 
     const userClient = await new User(

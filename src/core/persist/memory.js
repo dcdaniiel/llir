@@ -11,136 +11,149 @@ const {
   ProductImages,
   Payment,
   Order,
+  OrderDetail,
 } = require('../models');
 
-class MemoryPersist {
-  constructor(class_) {
-    this._store = {};
-    this._class = class_;
-  }
+function MemoryPersist(class_) {
+  let store = {};
+  return {
+    async save(obj) {
+      if (obj.id in store) {
+        await this._update(obj.id, obj);
+        return 'update';
+      }
+      await this._create(obj);
+      return 'create';
+    },
 
-  async save(obj) {
-    if (obj.id in this._store) {
-      await this._update(obj.id, obj);
-      return 'update';
-    }
-    await this._create(obj);
-    return 'create';
-  }
+    async get(obj_id) {
+      return store[obj_id];
+    },
 
-  async get(obj_id) {
-    return this._store[obj_id];
-  }
+    async getAll() {
+      return Object.values(store);
+    },
 
-  async getAll() {
-    return Object.values(this._store);
-  }
+    async first() {
+      const first = await this.getAll();
+      return first[0];
+    },
 
-  async first() {
-    const first = await this.getAll();
-    return first[0];
-  }
+    async delete(obj_id) {
+      const ret = store[obj_id] ? 1 : 0;
+      delete store[obj_id];
+      return ret;
+    },
 
-  async delete(obj_id) {
-    const ret = this._store[obj_id] ? 1 : 0;
-    delete this._store[obj_id];
-    return ret;
-  }
+    async deleteAll() {
+      const ret = _.keys(store).length;
 
-  async deleteAll() {
-    const ret = _.keys(this._store).length;
+      store = {};
+      return ret;
+    },
 
-    this._store = {};
-    return ret;
-  }
+    async _create(obj) {
+      store[obj.id] = _.cloneDeep(obj);
+    },
 
-  async _create(obj) {
-    this._store[obj.id] = _.cloneDeep(obj);
-  }
-
-  async _update(obj_id, obj) {
-    assert(obj_id in this._store);
-    this._store[obj_id] = _.cloneDeep(obj);
-  }
+    async _update(obj_id, obj) {
+      assert(obj_id in store);
+      store[obj_id] = _.cloneDeep(obj);
+    },
+  };
 }
 
-class UsersMemoryPersist extends MemoryPersist {
-  get instance() {
-    return this._instance;
-  }
-
-  set instance(instance) {
-    this._instance = instance;
-  }
-
-  constructor() {
-    super(User);
-    if (UsersMemoryPersist.instance) {
-      return UsersMemoryPersist.instance;
-    }
-
-    UsersMemoryPersist.instance = this;
-  }
+function UsersMemoryPersist(persist = MemoryPersist) {
+  return {
+    ...persist(User),
+  };
 }
 
-class CompanyMemoryPersist extends MemoryPersist {
-  constructor(db) {
-    super(db, Company, 'companies');
-  }
+function CompanyMemoryPersist(persist = MemoryPersist) {
+  return {
+    ...persist(Company),
+  };
 }
 
-class ImageMemoryPersist extends MemoryPersist {
-  constructor(db) {
-    super(db, Image, 'images');
-  }
+function ImageMemoryPersist(persist = MemoryPersist) {
+  return {
+    ...persist(Image),
+  };
 }
 
-class AddressMemoryPersist extends MemoryPersist {
-  constructor(db) {
-    super(db, Address, 'addresses');
-  }
+function AddressMemoryPersist(persist = MemoryPersist) {
+  return {
+    ...persist(Address),
+  };
 }
 
-class RoleMemoryPersist extends MemoryPersist {
-  constructor(db) {
-    super(db, Role, 'roles');
-  }
+function RoleMemoryPersist(persist = MemoryPersist) {
+  return {
+    ...persist(Role),
+  };
 }
 
-class ClientsCompaniesMemoryPersist extends MemoryPersist {
-  constructor(db) {
-    super(db, ClientsCompanies, 'clients_companies');
-  }
+function ClientsCompaniesMemoryPersist(persist = MemoryPersist) {
+  return {
+    ...persist(ClientsCompanies),
+  };
 }
 
-class ProductMemoryPersist extends MemoryPersist {
-  constructor(db) {
-    super(db, Product, 'products');
-  }
+function ProductMemoryPersist(persist = MemoryPersist) {
+  return {
+    ...persist(Product),
+  };
 }
 
-class ProductImagesMemoryPersist extends MemoryPersist {
-  constructor(db) {
-    super(db, ProductImages, 'product_images');
-  }
+function ProductImagesMemoryPersist(persist = MemoryPersist) {
+  return {
+    ...persist(ProductImages),
+  };
 }
 
-class PaymentMemoryPersist extends MemoryPersist {
-  constructor(db) {
-    super(db, Payment, 'payments');
-  }
+function PaymentMemoryPersist(persist = MemoryPersist) {
+  return {
+    ...persist(Payment),
+  };
 }
 
-class OrderMemoryPersist extends MemoryPersist {
-  constructor(db) {
-    super(db, Order, 'orders');
-  }
+function OrderDetailMemoryPersist(persist = MemoryPersist) {
+  return {
+    ...persist(OrderDetail),
+  };
 }
 
-class OrderDetailMemoryPersist extends MemoryPersist {
-  constructor(db) {
-    super(db, Order, 'order_detail');
-  }
+function OrderMemoryPersist(persist = MemoryPersist) {
+  const orderInstance = persist(Order);
+  return {
+    ...orderInstance,
+    async _create(obj) {
+      const { items, ...order } = obj;
+
+      if (items.length) {
+        const [order_data] = await orderInstance.save(order);
+        await Promise.all(
+          items.map(async ({ name, price, type, category, quantity }) => {
+            await OrderDetailMemoryPersist().save(
+              OrderDetail.serialize(
+                new OrderDetail(
+                  order_data.id,
+                  name,
+                  price,
+                  type,
+                  category,
+                  quantity
+                )
+              )
+            );
+          })
+        );
+        return 'Order successfully created!';
+      }
+
+      throw Error('Missing order items!');
+    },
+  };
 }
 
 module.exports = {
