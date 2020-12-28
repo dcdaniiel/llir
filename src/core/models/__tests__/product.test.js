@@ -1,6 +1,5 @@
 const { User, Company, Product } = require('../index');
 const { PersistorProvider } = require('../../persist');
-const { persist_options } = require('../../../settings');
 
 const available_days = {
   days: [
@@ -11,7 +10,7 @@ const available_days = {
 };
 
 const _clean = async () => {
-  const persistor = PersistorProvider.getPersistor(...persist_options);
+  const persistor = PersistorProvider.getPersistor();
   const comp = persistor.getPersistInstance('Company');
   const user = persistor.getPersistInstance('User');
   const product = persistor.getPersistInstance('Product');

@@ -1,9 +1,8 @@
 const { Address, User } = require('../index');
 const { PersistorProvider } = require('../../persist');
-const { persist_options } = require('../../../settings');
 
 const _clean = async () => {
-  const persistor = PersistorProvider.getPersistor(...persist_options);
+  const persistor = PersistorProvider.getPersistor();
   const company = persistor.getPersistInstance('Company');
   const address = persistor.getPersistInstance('Address');
   const user = persistor.getPersistInstance('User');

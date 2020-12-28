@@ -1,9 +1,8 @@
 const { Role, RoleTypes } = require('../index');
 const { PersistorProvider } = require('../../persist');
-const { persist_options } = require('../../../settings');
 
 const _clean = async () => {
-  const persistor = PersistorProvider.getPersistor(...persist_options);
+  const persistor = PersistorProvider.getPersistor();
   const role = persistor.getPersistInstance('Role');
 
   await role.deleteAll();
