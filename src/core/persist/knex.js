@@ -65,58 +65,58 @@ function UserKnexPersist(db) {
     ...KnexPersist(db, User, 'users'),
   };
 }
-function CompanyKnexPersist(db, persist = KnexPersist) {
+function CompanyKnexPersist(db) {
   const table = 'companies';
   return {
-    ...persist(db, Company, table),
+    ...KnexPersist(db, Company, table),
     async find_cod(cod) {
       return db(table).where('cod', cod).first();
     },
   };
 }
-function ImageKnexPersist(db, persist = KnexPersist) {
+function ImageKnexPersist(db) {
   return {
-    ...persist(db, Image, 'images'),
+    ...KnexPersist(db, Image, 'images'),
   };
 }
-function AddressKnexPersist(db, persist = KnexPersist) {
+function AddressKnexPersist(db) {
   return {
-    ...persist(db, Address, 'addresses'),
+    ...KnexPersist(db, Address, 'addresses'),
   };
 }
-function RoleKnexPersist(db, persist = KnexPersist) {
+function RoleKnexPersist(db) {
   return {
-    ...persist(db, Role, 'roles'),
+    ...KnexPersist(db, Role, 'roles'),
   };
 }
-function ClientsCompaniesKnexPersist(db, persist = KnexPersist) {
+function ClientsCompaniesKnexPersist(db) {
   return {
-    ...persist(db, ClientsCompanies, 'clients_companies'),
+    ...KnexPersist(db, ClientsCompanies, 'clients_companies'),
   };
 }
-function ProductKnexPersist(db, persist = KnexPersist) {
+function ProductKnexPersist(db) {
   return {
-    ...persist(db, Product, 'products'),
+    ...KnexPersist(db, Product, 'products'),
   };
 }
-function ProductImagesKnexPersist(db, persist = KnexPersist) {
+function ProductImagesKnexPersist(db) {
   return {
-    ...persist(db, ProductImages, 'product_images'),
+    ...KnexPersist(db, ProductImages, 'product_images'),
   };
 }
-function PaymentKnexPersist(db, persist = KnexPersist) {
+function PaymentKnexPersist(db) {
   return {
-    ...persist(db, Payment, 'payments'),
+    ...KnexPersist(db, Payment, 'payments'),
   };
 }
-function OrderDetailKnexPersist(db, persist = KnexPersist) {
+function OrderDetailKnexPersist(db) {
   return {
-    ...persist(db, OrderDetail, 'order_detail'),
+    ...KnexPersist(db, OrderDetail, 'order_detail'),
   };
 }
-function OrderKnexPersist(db, persist = KnexPersist) {
+function OrderKnexPersist(db) {
   return {
-    ...persist(db, Order, 'orders'),
+    ...KnexPersist(db, Order, 'orders'),
 
     async _create(obj) {
       return db.transaction(async (trx) => {
