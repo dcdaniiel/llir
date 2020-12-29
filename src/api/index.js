@@ -4,7 +4,6 @@ const logger = require('koa-logger');
 const route = require('./routes');
 const { startLogger, emitter } = require('../utils');
 const { PersistorProvider } = require('../core/persist');
-const { persist_options } = require('../settings');
 
 const corsOptions = {
   origin: '*',
@@ -12,7 +11,7 @@ const corsOptions = {
   allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 };
 
-const startServer = async (port, persist_mode = persist_options) => {
+const startServer = async (port) => {
   const app = new Koa();
   startLogger(emitter);
 
@@ -27,7 +26,7 @@ const startServer = async (port, persist_mode = persist_options) => {
 
   app.use(async (ctx, next) => {
     try {
-      ctx.state.persistor = PersistorProvider.getPersistor(...persist_mode);
+      ctx.state.persistor = PersistorProvider.getPersistor();
       await next();
     } catch (e) {
       emitter.emit(`error handler: ${e}`);

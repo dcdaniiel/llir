@@ -45,6 +45,11 @@ class PersistedEntity extends BaseEntity {
     return this.deserialize(serialized);
   }
 
+  static async getAll() {
+    const serialized = await this.getPersist().getAll();
+    return serialized.map((i) => this.deserialize(i));
+  }
+
   static async delete(...args) {
     return this.getPersist().delete(...args);
   }

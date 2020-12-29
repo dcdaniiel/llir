@@ -46,10 +46,7 @@ describe('Product Image relation', () => {
   });
 
   it('create a product_image relation', async () => {
-    const persistor = PersistorProvider.getPersistor(...persist_options);
-    const CompanyInstance = persistor.getPersistInstance('Company');
-
-    const [company] = await CompanyInstance.getAll();
+    const [company] = await Company.getAll('asc');
 
     await new Product(company.id, 'uva', 9.5, 'KG', 'frutas').save();
     const prod = await new Product(
@@ -74,10 +71,7 @@ describe('Product Image relation', () => {
   });
 
   it('delete a product_image relation', async () => {
-    const persistor = PersistorProvider.getPersistor(...persist_options);
-    const CompanyInstance = persistor.getPersistInstance('Company');
-
-    const [company] = await CompanyInstance.getAll();
+    const [company] = await Company.getAll();
 
     await new Product(company.id, 'uva', 9.5, 'KG', 'frutas').save();
     const prod = await new Product(

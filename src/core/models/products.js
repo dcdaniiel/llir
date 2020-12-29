@@ -47,6 +47,10 @@ class Product extends PersistedEntity {
     this._type = type;
     this._category = category;
   }
+
+  get company_id() {
+    return this._company_id;
+  }
 }
 
 module.exports = { Product };

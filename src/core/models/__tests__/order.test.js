@@ -50,10 +50,6 @@ describe('Order', () => {
   });
 
   it('create a order', async () => {
-    const persistor = PersistorProvider.getPersistor(...persist_options);
-
-    const ProductInstance = persistor.getPersistInstance('Product');
-
     const userClient = await new User(
       'user_test_client',
       'cpf',
@@ -63,12 +59,13 @@ describe('Order', () => {
       new Date()
     ).save();
 
-    const [product, ...products] = await ProductInstance.getAll();
+    const [product, ...products] = await Product.getAll();
 
     const setQuantityProducts = [product, ...products].map((order, index) => ({
       ...order,
-      quantity: index * 2,
+      _quantity: index * 2,
     }));
+
     const pay = await new Payment(
       product.company_id,
       'Cartão',
@@ -89,9 +86,6 @@ describe('Order', () => {
   });
 
   it('delete a order', async () => {
-    const persistor = PersistorProvider.getPersistor(...persist_options);
-    const ProductInstance = persistor.getPersistInstance('Product');
-
     const userClient = await new User(
       'user_test_client',
       'cpf',
@@ -101,11 +95,11 @@ describe('Order', () => {
       new Date()
     ).save();
 
-    const [product, ...products] = await ProductInstance.getAll();
+    const [product, ...products] = await Product.getAll();
 
     const setQuantityProducts = [product, ...products].map((order, index) => ({
       ...order,
-      quantity: index * 2,
+      _quantity: index * 2,
     }));
     const pay = await new Payment(
       product.company_id,

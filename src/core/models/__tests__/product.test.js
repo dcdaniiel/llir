@@ -44,7 +44,7 @@ describe('Product', () => {
   });
 
   it('create a product', async () => {
-    const persistor = PersistorProvider.getPersistor(...persist_options);
+    const persistor = PersistorProvider.getPersistor();
     const CompanyInstance = persistor.getPersistInstance('Company');
 
     const [company] = await CompanyInstance.getAll();
@@ -66,7 +66,7 @@ describe('Product', () => {
   });
 
   it('update product', async () => {
-    const persistor = PersistorProvider.getPersistor(...persist_options);
+    const persistor = PersistorProvider.getPersistor();
     const CompanyInstance = persistor.getPersistInstance('Company');
 
     const [company] = await CompanyInstance.getAll();
@@ -92,7 +92,7 @@ describe('Product', () => {
   });
 
   it('delete product', async () => {
-    const persistor = PersistorProvider.getPersistor(...persist_options);
+    const persistor = PersistorProvider.getPersistor();
     const CompanyInstance = persistor.getPersistInstance('Company');
 
     const [company] = await CompanyInstance.getAll();

@@ -37,8 +37,8 @@ function KnexPersist(db, class_, table) {
       return db(table).where('id', obj_id).first();
     },
 
-    async getAll() {
-      return db.select('*').from(table).orderBy('created_at', 'desc');
+    async getAll(order_by = 'desc') {
+      return db.select('*').from(table).orderBy('created_at', order_by);
     },
 
     async first() {
@@ -125,21 +125,22 @@ function OrderKnexPersist(db) {
         if (items.length) {
           const [order_data] = await trx('orders').insert(order, '*');
           await Promise.all(
-            items.map(({ name, price, type, category, quantity }) =>
-              trx('order_detail').insert(
+            items.map((item) => {
+              console.log('NAME:::', item);
+              return trx('order_detail').insert(
                 OrderDetail.serialize(
                   new OrderDetail(
                     order_data.id,
-                    name,
-                    price,
-                    type,
-                    category,
-                    quantity
+                    item._name,
+                    item._price,
+                    item._type,
+                    item._category,
+                    item._quantity
                   )
                 ),
                 '*'
-              )
-            )
+              );
+            })
           );
           return 'Order successfully created!';
         }
