@@ -12,7 +12,6 @@ class OrderDetail extends PersistedEntity {
       name: obj._name,
       price: obj._price,
       type: obj._type,
-      category: obj._category,
       quantity: obj._quantity,
       created_at: obj._created_at,
       updated_at: obj._updated_at,
@@ -26,7 +25,6 @@ class OrderDetail extends PersistedEntity {
         serialized.name,
         serialized.price,
         serialized.type,
-        serialized.category,
         serialized.quantity
       );
 
@@ -39,14 +37,13 @@ class OrderDetail extends PersistedEntity {
     return undefined;
   }
 
-  constructor(order_id, name, price, type, category, quantity) {
+  constructor(order_id, name, price, type, quantity) {
     super();
 
     this._order_id = order_id;
     this._name = name;
     this._price = price;
     this._type = type;
-    this._category = category;
     this._quantity = quantity;
   }
 
@@ -56,10 +53,6 @@ class OrderDetail extends PersistedEntity {
 
   get price() {
     return this._price;
-  }
-
-  get category() {
-    return this._category;
   }
 
   get type() {

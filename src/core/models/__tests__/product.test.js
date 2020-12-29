@@ -1,4 +1,4 @@
-const { User, Company, Product } = require('../index');
+const { User, Company, Product, Category } = require('../index');
 const { PersistorProvider } = require('../../persist');
 
 const available_days = {
@@ -44,20 +44,19 @@ describe('Product', () => {
   });
 
   it('create a product', async () => {
-    const persistor = PersistorProvider.getPersistor();
-    const CompanyInstance = persistor.getPersistInstance('Company');
+    const category = await new Category('frutas').save();
 
-    const [company] = await CompanyInstance.getAll();
+    const [company] = await Company.getAll();
 
-    await new Product(company.id, 'morango', 9.5, 'KG', 'frutas').save();
-    await new Product(company.id, 'banana', 9.5, 'KG', 'frutas').save();
-    await new Product(company.id, 'uva', 9.5, 'KG', 'frutas').save();
+    await new Product(company.id, 'morango', 9.5, 'KG', category.id).save();
+    await new Product(company.id, 'banana', 9.5, 'KG', category.id).save();
+    await new Product(company.id, 'uva', 9.5, 'KG', category.id).save();
     const prod = await new Product(
       company.id,
       'laranja',
       9.5,
       'KG',
-      'frutas'
+      category.id
     ).save();
 
     const fetch = await Product.fetch(prod.id);
@@ -66,43 +65,39 @@ describe('Product', () => {
   });
 
   it('update product', async () => {
-    const persistor = PersistorProvider.getPersistor();
-    const CompanyInstance = persistor.getPersistInstance('Company');
-
-    const [company] = await CompanyInstance.getAll();
+    const category = await new Category('frutas').save();
+    const [company] = await Company.getAll();
 
     const prod = await new Product(
       company.id,
       'laranja',
       9.5,
       'KG',
-      'frutas'
+      category.id
     ).save();
 
     let fetch = await Product.fetch(prod.id);
 
     expect(prod.id).toBe(fetch.id);
 
-    prod.category = 'update_';
+    prod.name = 'update_';
     prod.save();
 
     fetch = await Product.fetch(prod.id);
 
-    expect(prod.category).not.toBe(fetch.category);
+    expect(prod.name).not.toBe(fetch.name);
   });
 
   it('delete product', async () => {
-    const persistor = PersistorProvider.getPersistor();
-    const CompanyInstance = persistor.getPersistInstance('Company');
-
-    const [company] = await CompanyInstance.getAll();
+    const category = await new Category('frutas').save();
+    const [company] = await Company.getAll();
 
     const prod = await new Product(
       company.id,
       'laranja',
       9.5,
       'KG',
-      'frutas'
+      category.id
     ).save();
 
     let fetch = await Product.fetch(prod.id);

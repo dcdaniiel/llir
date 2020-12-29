@@ -15,4 +15,4 @@ exports.up = (knex) =>
       .notNullable();
     table.timestamps(true, true);
   });
-exports.down = (knex) => knex.schema.dropTable('auth_claims');
+exports.down = (knex) => knex.schema.dropTable('user_auth');

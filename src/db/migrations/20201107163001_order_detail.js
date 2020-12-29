@@ -10,7 +10,6 @@ exports.up = (knex) =>
     table.string('name', 50).notNullable();
     table.float('price').notNullable();
     table.string('type', 50).notNullable();
-    table.string('category', 50).notNullable();
     table.integer('quantity', 50).notNullable();
     table.timestamps(true, true);
   });

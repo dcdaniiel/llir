@@ -1,5 +1,6 @@
 const {
   User,
+  Category,
   Company,
   Image,
   Address,
@@ -133,7 +134,6 @@ function OrderKnexPersist(db) {
                     item._name,
                     item._price,
                     item._type,
-                    item._category,
                     item._quantity
                   )
                 ),
@@ -149,9 +149,15 @@ function OrderKnexPersist(db) {
     },
   };
 }
+function CategoryKnexPersist(db) {
+  return {
+    ...KnexPersist(db, Category, 'categories'),
+  };
+}
 
 module.exports = {
   UserKnexPersist,
+  CategoryKnexPersist,
   CompanyKnexPersist,
   ImageKnexPersist,
   AddressKnexPersist,

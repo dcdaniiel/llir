@@ -1,5 +1,6 @@
 const {
   UserKnexPersist,
+  CategoryKnexPersist,
   CompanyKnexPersist,
   ImageKnexPersist,
   AddressKnexPersist,
@@ -24,6 +25,7 @@ class PersistorProvider {
 
     return new PersistorSingleton({
       User: [UserKnexPersist, db],
+      Category: [CategoryKnexPersist, db],
       Company: [CompanyKnexPersist, db],
       Image: [ImageKnexPersist, db],
       Address: [AddressKnexPersist, db],

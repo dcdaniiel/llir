@@ -9,9 +9,11 @@ const { ProductImages } = require('./product_images');
 const { Payment } = require('./payment');
 const { Order } = require('./order');
 const { OrderDetail } = require('./order_detail');
+const { Category } = require('./category');
 
 module.exports = {
   User,
+  Category,
   Company,
   Image,
   Address,
