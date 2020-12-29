@@ -10,7 +10,12 @@ exports.up = (knex) =>
     table.string('name', 100).notNullable();
     table.float('price', 10).notNullable();
     table.string('type', 10);
-    table.string('category', 20).notNullable();
+    table
+      .uuid('category_id')
+      .references('categories.id')
+      .notNullable()
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
     table.timestamps(true, true);
   });
 
