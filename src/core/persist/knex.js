@@ -126,7 +126,6 @@ function OrderKnexPersist(db) {
           const [order_data] = await trx('orders').insert(order, '*');
           await Promise.all(
             items.map((item) => {
-              console.log('NAME:::', item);
               return trx('order_detail').insert(
                 OrderDetail.serialize(
                   new OrderDetail(

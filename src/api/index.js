@@ -14,6 +14,8 @@ const corsOptions = {
 const startServer = async (port) => {
   const app = new Koa();
   startLogger(emitter);
+  app.use(logger());
+  app.use(cors(corsOptions));
 
   const routes = route(app, {
     middlewares: [],
@@ -28,16 +30,14 @@ const startServer = async (port) => {
     try {
       ctx.state.persistor = PersistorProvider.getPersistor();
       await next();
-    } catch (e) {
-      emitter.emit(`error handler: ${e}`);
+    } catch (error) {
+      emitter.emit(`error handler: ${error}`);
       ctx.status = 500;
       if (error && error.status) {
         ctx.status = error.status;
       }
     }
   });
-  app.use(logger());
-  app.use(cors(corsOptions));
 
   for (const r of routes) {
     app.use(r);

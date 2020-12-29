@@ -1,25 +1,19 @@
 const { emitter } = require('../../utils');
+const { UserService } = require('../services');
 
-module.exports = {
-  get: async (ctx, next) => {
-    try {
-      const User = ctx.state.persistor.getPersistInstance('User');
-      const users = (await User.getAll()).map((user) => {
-        // eslint-disable-next-line no-unused-vars
-        const { _password, ...userData } = User._class.deserialize(user);
-        return userData;
-      });
+module.exports = () => {
+  const user = UserService();
 
-      ctx.status = 200;
-      ctx.body = users;
-      emitter.emit(`User getAll: ${JSON.stringify(users)}`);
-    } catch (e) {
-      ctx.body = {
-        message: `${e}`,
-      };
-      ctx.status = 500;
+  return {
+    async create(ctx) {
+      try {
+        const { body } = ctx.body;
 
-      emitter.emit(`User getAll: ${e}`);
-    }
-  },
+        ctx.boxy = await user.create(body);
+      } catch (e) {
+        ctx.body = e.errors || e.detail;
+        ctx.status = 400;
+      }
+    },
+  };
 };
