@@ -13,6 +13,7 @@ class User extends PersistedEntity {
       name: obj._name,
       cpf: obj._cpf,
       email: obj._email,
+      salt: obj._salt,
       phone: obj._phone,
       password: obj._password,
       birthdate: obj._birthdate,
@@ -31,6 +32,7 @@ class User extends PersistedEntity {
       );
 
       user._id = serialized.id;
+      user._salt = serialized.salt;
       user._created_at = serialized.created_at;
       user._updated_at = serialized.updated_at;
 
@@ -50,6 +52,22 @@ class User extends PersistedEntity {
     this._password = password;
     this._birthdate = birthdate;
     this._avatar_id = null;
+    this._salt = this._makeSalt();
+  }
+
+  _makeSalt() {
+    const length = Math.floor(Math.random() * 50);
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%?';
+    const charactersLength = characters.length;
+
+    return Array(length)
+      .fill('')
+      .reduce(
+        (acc, _) =>
+          acc + characters.charAt(Math.floor(Math.random() * charactersLength)),
+        ''
+      );
   }
 
   get id() {

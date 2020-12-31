@@ -7,7 +7,7 @@ module.exports = () => {
   return {
     async create(ctx) {
       try {
-        const { body } = ctx.request.body;
+        const { body } = ctx.request;
 
         console.log('BODY:::', body);
         ctx.body = await user.create(body);

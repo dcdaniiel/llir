@@ -1,3 +1,4 @@
+const bcryptjs = require('bcryptjs');
 const {
   User,
   Category,
@@ -64,6 +65,10 @@ function KnexPersist(db, class_, table) {
 function UserKnexPersist(db) {
   return {
     ...KnexPersist(db, User, 'users'),
+    async _create(obj) {
+      const password = await bcryptjs.hash(obj.salt + obj.password, 10);
+      return db('users').insert({ ...obj, password });
+    },
   };
 }
 function CompanyKnexPersist(db) {

@@ -5,7 +5,8 @@ exports.up = (knex) =>
     table.string('name', 255).notNullable();
     table.string('email', 50).notNullable().unique();
     table.string('phone', 20).notNullable().unique();
-    table.string('password', 20).notNullable();
+    table.string('password', 255).notNullable();
+    table.string('salt', 255).unique().notNullable();
     table.string('cpf', 20).notNullable();
     table.timestamp('birthdate').notNullable();
     table.timestamps(true, true);
