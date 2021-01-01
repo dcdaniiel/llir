@@ -15,7 +15,7 @@ module.exports = () => ({
 
     return {
       statusCode: 201,
-      data: { name: user.name, email: user.email, phone: user.phone },
+      data: { message: 'User created successfully', user_id: user.id },
     };
   },
 });

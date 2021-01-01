@@ -39,6 +39,10 @@ function KnexPersist(db, class_, table) {
       return db(table).where('id', obj_id).first();
     },
 
+    async findBy(where) {
+      return db(table).where(where);
+    },
+
     async getAll(order_by = 'desc') {
       return db.select('*').from(table).orderBy('created_at', order_by);
     },

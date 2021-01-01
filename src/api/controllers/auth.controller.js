@@ -1,17 +1,21 @@
 const { emitter } = require('../../utils');
-const { UserService } = require('../services');
+const { validateSchema } = require('../schemas');
+const { AuthService } = require('../services');
 
 module.exports = () => {
-  const user = UserService();
+  const auth = AuthService();
 
   return {
     async create(ctx) {
       try {
         const { body } = ctx.request;
 
-        console.log('BODY:::', body);
-        ctx.body = await user.create(body);
-        ctx.status = 201;
+        await validateSchema('login', body);
+
+        const { statusCode, data } = await auth.create(body);
+
+        ctx.body = data;
+        ctx.status = statusCode;
       } catch (e) {
         console.log('ERROR::', e);
         ctx.body = e.errors || e.detail;

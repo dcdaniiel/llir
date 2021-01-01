@@ -4,10 +4,10 @@ const Auth = require('./auth');
 const User = require('./user');
 
 module.exports = (opts) => {
-  const router = new Router();
+  const router = new Router({ prefix: '/api' });
   router.use(bodyParser());
   router.use('/auth', Auth(opts).routes());
-  router.use('/user', User(opts).routes());
+  router.use('/users', User(opts).routes());
 
   return [router.routes()];
 };

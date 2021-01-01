@@ -10,9 +10,13 @@ const { Payment } = require('./payment');
 const { Order } = require('./order');
 const { OrderDetail } = require('./order_detail');
 const { Category } = require('./category');
+const { AuthClaims } = require('./auth_claims');
+const { UserAuth } = require('./user_auth');
 
 module.exports = {
   User,
+  AuthClaims,
+  UserAuth,
   Category,
   Company,
   Image,
