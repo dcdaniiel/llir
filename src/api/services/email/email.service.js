@@ -1,4 +1,5 @@
 const { createTransport } = require('nodemailer');
+const templates = require('./templates');
 
 const remetente = createTransport({
   host: process.env.EMAIL_HOST,
@@ -10,12 +11,13 @@ const remetente = createTransport({
   },
 });
 
-const sendEmail = (to, subject, text, result) => {
+const sendEmail = (template, user, result) => {
+  const content = templates[template](user);
   const email = {
     from: 'contato@dcdaniiel.dev',
-    subject,
-    to,
-    text,
+    subject: content.subject,
+    to: user.email,
+    html: content.html,
   };
   return remetente.sendMail(email, result);
 };

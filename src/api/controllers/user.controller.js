@@ -21,5 +21,21 @@ module.exports = () => {
         ctx.status = 400;
       }
     },
+    async confirmation_email(ctx) {
+      try {
+        const { confirmation } = ctx.query;
+
+        const { statusCode, data } = await user.confirmation_email(
+          confirmation
+        );
+
+        ctx.body = data;
+        ctx.status = statusCode;
+      } catch (e) {
+        emitter.emit(`Error ${e}`);
+        ctx.body = e.errors || e.detail;
+        ctx.status = 400;
+      }
+    },
   };
 };

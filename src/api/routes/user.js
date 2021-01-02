@@ -5,6 +5,7 @@ module.exports = (opts) => {
   const user = UserController();
   const router = new Router();
   router.post('/', user.create);
+  router.get('/email', user.confirmation_email);
 
   return router;
 };

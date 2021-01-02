@@ -13,6 +13,7 @@ class User extends PersistedEntity {
       name: obj._name,
       cpf: obj._cpf,
       email: obj._email,
+      email_confirmed: obj._email_confirmed,
       salt: obj._salt,
       phone: obj._phone,
       password: obj._password,
@@ -33,6 +34,7 @@ class User extends PersistedEntity {
 
       user._id = serialized.id;
       user._salt = serialized.salt;
+      user._email_confirmed = serialized.email_confirmed;
       user._created_at = serialized.created_at;
       user._updated_at = serialized.updated_at;
 
@@ -90,6 +92,10 @@ class User extends PersistedEntity {
     return this._phone;
   }
 
+  get email_confirmed() {
+    return this._email_confirmed;
+  }
+
   set name(name) {
     this._name = name;
   }
@@ -104,6 +110,10 @@ class User extends PersistedEntity {
 
   set avatar_id(id) {
     this._avatar_id = id;
+  }
+
+  set email_confirmed(bool) {
+    this._email_confirmed = bool;
   }
 
   set phone(phone) {
