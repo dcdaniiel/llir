@@ -10,7 +10,7 @@ exports.up = (knex) =>
     table.uuid('avatar_id').references('images.id').onUpdate('CASCADE');
     table.string('name', 255).unique().notNullable();
     table.string('cod', 255).unique().notNullable();
-    table.string('phone', 20).notNullable();
+    table.string('phone', 20).unique().notNullable();
     table.jsonb('available_days').notNullable();
     table.timestamps(true, true);
   });

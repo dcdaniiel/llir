@@ -46,7 +46,7 @@ class Company extends PersistedEntity {
 
     this._name = name;
     this._phone = phone;
-    this._available_days = this.validate_days(available_days);
+    this._available_days = available_days;
     this._user_id = user_id;
     this._avatar_id = avatar_id;
     this._cod = null;
@@ -75,28 +75,6 @@ class Company extends PersistedEntity {
 
   set cod(cod) {
     this._cod = cod;
-  }
-
-  validate_days(obj) {
-    const schemaValidator = Ajv();
-
-    const schema = {
-      type: 'object',
-      properties: {
-        days: {
-          type: 'array',
-          items: {
-            type: 'object',
-          },
-        },
-      },
-    };
-
-    const validator = schemaValidator.compile(schema);
-
-    const valid = validator(obj);
-
-    return valid ? obj : null;
   }
 
   set user_id(id) {

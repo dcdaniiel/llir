@@ -4,6 +4,7 @@ exports.up = (knex) =>
     table.uuid('avatar_id').references('images.id');
     table.string('name', 255).notNullable();
     table.string('email', 50).notNullable().unique();
+    table.boolean('email_confirmed').notNullable().defaultTo(false);
     table.string('phone', 20).notNullable().unique();
     table.string('password', 255).notNullable();
     table.string('salt', 255).unique().notNullable();
