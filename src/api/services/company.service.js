@@ -1,4 +1,5 @@
 const { Company } = require('../../core/models');
+const { confirm_email } = require('../helpers');
 
 module.exports = () => {
   const generate_cod = async (name) => {
@@ -23,9 +24,16 @@ module.exports = () => {
         obj.avatar_id
       );
 
-      const cod = await generate_cod(obj.name);
+      const confirm = await confirm_email(obj.user_id);
 
-      company.cod = cod;
+      if (!confirm) {
+        return {
+          statusCode: 401,
+          data: { message: 'User need confirm email' },
+        };
+      }
+
+      company.cod = await generate_cod(obj.name);
 
       await company.save();
 

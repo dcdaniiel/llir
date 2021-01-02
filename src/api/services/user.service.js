@@ -1,4 +1,6 @@
+const { emitter } = require('../../utils');
 const { User } = require('../../core/models');
+const { sendEmail } = require('./email/email.service');
 
 module.exports = () => ({
   async create(body) {
@@ -12,6 +14,10 @@ module.exports = () => ({
       password,
       birthdate
     ).save();
+
+    sendEmail(email, 'LLIR - Confirmação de email', 'teste').then((msg) =>
+      emitter.emit(`Email: ${JSON.stringify(msg)}`)
+    );
 
     return {
       statusCode: 201,
