@@ -12,6 +12,8 @@ const {
   Payment,
   Order,
   OrderDetail,
+  UserAuth,
+  AuthClaims,
 } = require('../models');
 
 function KnexPersist(db, class_, table) {
@@ -81,6 +83,28 @@ function CompanyKnexPersist(db) {
     ...KnexPersist(db, Company, table),
     async find_cod(cod) {
       return db(table).where('cod', cod).first();
+    },
+    async _create(obj) {
+      return db.transaction(async (trx) => {
+        const [company_id] = await trx('companies').insert(obj, 'id');
+        const [role] = await Role.findBy({ role: 'admin' });
+        const [client_company_id] = await trx('clients_companies').insert(
+          ClientsCompanies.serialize(
+            new ClientsCompanies(role.id, obj.user_id, company_id)
+          ),
+          'id'
+        );
+        const permissions = await AuthClaims.getAll();
+        await Promise.all(
+          permissions.map((claim) =>
+            trx('user_auth').insert(
+              UserAuth.serialize(new UserAuth(client_company_id, claim.id))
+            )
+          )
+        );
+
+        return 'Company created successfully!';
+      });
     },
   };
 }
@@ -163,6 +187,16 @@ function CategoryKnexPersist(db) {
     ...KnexPersist(db, Category, 'categories'),
   };
 }
+function AuthClaimsKnexPersist(db) {
+  return {
+    ...KnexPersist(db, AuthClaims, 'auth_claims'),
+  };
+}
+function UserAuthKnexPersist(db) {
+  return {
+    ...KnexPersist(db, UserAuth, 'user_auth'),
+  };
+}
 
 module.exports = {
   UserKnexPersist,
@@ -177,4 +211,6 @@ module.exports = {
   PaymentKnexPersist,
   OrderKnexPersist,
   OrderDetailKnexPersist,
+  AuthClaimsKnexPersist,
+  UserAuthKnexPersist,
 };

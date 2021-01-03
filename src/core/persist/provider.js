@@ -11,6 +11,8 @@ const {
   PaymentKnexPersist,
   OrderKnexPersist,
   OrderDetailKnexPersist,
+  AuthClaimsKnexPersist,
+  UserAuthKnexPersist,
 } = require('./knex');
 
 const { db } = require('../../db');
@@ -36,6 +38,8 @@ class PersistorProvider {
       Payment: [PaymentKnexPersist, db],
       Order: [OrderKnexPersist, db],
       OrderDetail: [OrderDetailKnexPersist, db],
+      AuthClaims: [AuthClaimsKnexPersist, db],
+      UserAuth: [UserAuthKnexPersist, db],
     });
   }
 }

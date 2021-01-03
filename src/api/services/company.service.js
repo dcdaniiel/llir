@@ -16,6 +16,15 @@ module.exports = () => {
 
   return {
     async create(obj) {
+      const [companyExists] = await Company.findBy({ name: obj.name });
+
+      if (companyExists) {
+        return {
+          statusCode: 400,
+          data: { message: 'Company already registered!' },
+        };
+      }
+
       const company = new Company(
         obj.name,
         obj.phone,
@@ -24,12 +33,12 @@ module.exports = () => {
         obj.avatar_id
       );
 
-      const confirm = await confirm_email(obj.user_id);
+      const confirmed = await confirm_email(obj.user_id);
 
-      if (!confirm) {
+      if (!confirmed.enabled) {
         return {
-          statusCode: 401,
-          data: { message: 'User need confirm email' },
+          statusCode: confirmed?.status || 401,
+          data: { message: confirmed?.message || 'User need confirm email' },
         };
       }
 
