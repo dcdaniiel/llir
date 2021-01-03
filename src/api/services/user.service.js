@@ -1,11 +1,11 @@
-const { decrypt, encrypt } = require('../helpers');
+const { decrypt } = require('../helpers');
 const { emitter } = require('../../utils');
 const { User } = require('../../core/models');
 const { sendEmail } = require('./email/email.service');
 
 module.exports = () => ({
   async create(body) {
-    const { name, cpf, email, phone, password, birthdate } = body;
+    const { name, cpf, email, phone, password, birthdate, cod } = body;
 
     const user = await new User(
       name,
@@ -13,7 +13,8 @@ module.exports = () => ({
       email,
       phone,
       password,
-      birthdate
+      birthdate,
+      cod
     ).save();
 
     sendEmail('email_confirmation', user).then((msg) =>

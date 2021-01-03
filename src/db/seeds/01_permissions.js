@@ -15,6 +15,7 @@ exports.seed = (knex) => {
         auth_claim('category', 'may_manager_category'),
         auth_claim('payment', 'may_manager_payment'),
         auth_claim('image', 'may_manager_image'),
+        auth_claim('profile', 'may_manager_profile'),
       ])
     );
 };
