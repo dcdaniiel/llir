@@ -195,6 +195,25 @@ function AuthClaimsKnexPersist(db) {
 function UserAuthKnexPersist(db) {
   return {
     ...KnexPersist(db, UserAuth, 'user_auth'),
+    async getAuth(user_id) {
+      const client_company = await ClientsCompanies.findBy({ user_id });
+
+      return Promise.all(
+        client_company.map(async ({ _id, _role_id, _company_id }) => ({
+          company: Company.serialize(await Company.fetch(_company_id)),
+          role: (await Role.fetch(_role_id))._role,
+          claims: await Promise.all(
+            (await UserAuth.findBy({ client_company: _id })).map(
+              async ({ _auth_claim }) => {
+                const { claim } = await AuthClaims.fetch(_auth_claim);
+
+                return claim;
+              }
+            )
+          ),
+        }))
+      );
+    },
   };
 }
 

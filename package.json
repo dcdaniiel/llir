@@ -26,6 +26,7 @@
     "date-fns": "^2.16.1",
     "dotenv": "^8.2.0",
     "eventemitter2": "^6.4.3",
+    "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^1.11.0",
     "knex": "^0.21.5",
     "koa": "^2.13.0",

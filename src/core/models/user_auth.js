@@ -37,6 +37,10 @@ class UserAuth extends PersistedEntity {
     this._client_company = client_company;
     this._auth_claim = auth_claim;
   }
+
+  static async getAuth(user_id) {
+    return this.getPersist().getAuth(user_id);
+  }
 }
 
 module.exports = { UserAuth };
