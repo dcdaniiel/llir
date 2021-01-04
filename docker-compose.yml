@@ -9,3 +9,9 @@ services:
       POSTGRES_PASSWORD: "docker"
     ports:
       - "5432:5432"
+
+  redis:
+    image: redis
+    command: redis-server --requirepass dockerPasswd
+    ports:
+    - "6379:6379"

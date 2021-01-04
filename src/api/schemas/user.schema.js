@@ -19,7 +19,7 @@ const userCreate = yup.object().shape({
     .required()
     .matches(phoneRegExp, 'Phone number is not valid'),
   birthdate: yup.date().required(),
-  cod: yup.string(),
+  cod: yup.string().required(),
 });
 
 module.exports = { userCreate };

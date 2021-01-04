@@ -1,6 +1,7 @@
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User, UserAuth } = require('../../core/models');
+const { redis } = require('../helpers');
 
 module.exports = () => ({
   async create({ email, password }) {
@@ -19,6 +20,7 @@ module.exports = () => ({
           const { id, user_id, created_at, updated_at, ...comp } = company;
           return {
             ...acc,
+            user: user._id,
             [company.id]: {
               role,
               claims,
@@ -30,6 +32,8 @@ module.exports = () => ({
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
           expiresIn: '6h',
         });
+
+        redis.set(user._id, JSON.stringify(payload));
 
         return {
           statusCode: 200,

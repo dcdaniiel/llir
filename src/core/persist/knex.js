@@ -81,34 +81,35 @@ function UserKnexPersist(db) {
           '*'
         );
 
-        if (cod) {
-          const [company] = await Company.findBy({ cod });
-          if (company) {
-            const [role] = await Role.findBy({ role: 'client' });
-            const [client_company_id] = await trx('clients_companies').insert(
-              ClientsCompanies.serialize(
-                new ClientsCompanies(role.id, userData.id, company.id)
-              ),
-              'id'
-            );
-            const client_claims = [
-              'authenticated',
-              'may_manager_profile',
-              'may_manager_order',
-            ];
-            const permissions = (
-              await AuthClaims.getAll()
-            ).filter(({ _claim }) => client_claims.includes(_claim));
+        const [company] = await Company.findBy({ cod });
 
-            await Promise.all(
-              permissions.map((claim) =>
-                trx('user_auth').insert(
-                  UserAuth.serialize(new UserAuth(client_company_id, claim.id))
-                )
-              )
-            );
-          }
+        if (!company) {
+          throw new Error('Invalid cod!');
         }
+
+        const [role] = await Role.findBy({ role: 'client' });
+        const [client_company_id] = await trx('clients_companies').insert(
+          ClientsCompanies.serialize(
+            new ClientsCompanies(role.id, userData.id, company.id)
+          ),
+          'id'
+        );
+        const client_claims = [
+          'authenticated',
+          'may_manager_profile',
+          'may_manager_order',
+        ];
+        const permissions = (await AuthClaims.getAll()).filter(({ _claim }) =>
+          client_claims.includes(_claim)
+        );
+
+        await Promise.all(
+          permissions.map((claim) =>
+            trx('user_auth').insert(
+              UserAuth.serialize(new UserAuth(client_company_id, claim.id))
+            )
+          )
+        );
 
         return 'User created successfully!';
       });

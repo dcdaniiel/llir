@@ -16,8 +16,9 @@ module.exports = () => {
         ctx.body = data;
         ctx.status = statusCode;
       } catch (e) {
-        emitter.emit(`Error ${e}`);
-        ctx.body = e.errors || e.detail;
+        const message = `${e}`;
+        emitter.emit(`Error > ${e}`);
+        ctx.body = e.errors || e.detail || { message };
         ctx.status = 400;
       }
     },

@@ -39,6 +39,7 @@
     "lodash": "^4.17.20",
     "nodemailer": "^6.4.17",
     "pg": "^8.5.1",
+    "redis": "^3.0.2",
     "uuid": "^8.3.2",
     "worker-threads-pool": "^2.0.0",
     "yup": "^0.32.8"
