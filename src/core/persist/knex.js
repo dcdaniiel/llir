@@ -71,12 +71,44 @@ function KnexPersist(db, class_, table) {
 function UserKnexPersist(db) {
   return {
     ...KnexPersist(db, User, 'users'),
+    async _create(obj) {
+      const password = await bcryptjs.hash(obj.salt + obj.password, 10);
+
+      return db('users').insert({ ...obj, password });
+    },
   };
 }
 function CompanyKnexPersist(db) {
   const table = 'companies';
   return {
     ...KnexPersist(db, Company, table),
+
+    async _create(obj) {
+      // eslint-disable-next-line no-unused-vars
+      const { token, ...company } = obj;
+
+      return db.transaction(async (trx) => {
+        const [company_id] = await db('companies').insert(company, 'id');
+        const [admin] = await Role.findBy({ role: 'admin' });
+        const [client_company_id] = await trx('clients_companies').insert(
+          ClientsCompanies.serialize(
+            new ClientsCompanies(admin.id, obj.user_id, company_id)
+          ),
+          'id'
+        );
+
+        const claims = await AuthClaims.getAll();
+
+        await Promise.all(
+          claims.map(({ _id }) =>
+            trx('user_auth').insert(
+              UserAuth.serialize(new UserAuth(client_company_id, _id))
+            )
+          )
+        );
+      });
+    },
+
     async find_cod(cod) {
       return db(table).where('cod', cod).first();
     },

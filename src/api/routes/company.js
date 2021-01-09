@@ -6,6 +6,8 @@ module.exports = (opts) => {
   const router = new Router();
 
   router.post('/', company.create);
+  router.post('/confirmation', company.invite_creation);
+  router.get('/', company.list);
 
   return router;
 };

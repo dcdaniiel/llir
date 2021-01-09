@@ -34,6 +34,7 @@ module.exports = () => ({
             }),
             [company.id]: {
               claims,
+              role,
               company: comp,
             },
           };

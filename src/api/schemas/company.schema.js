@@ -3,7 +3,6 @@ const yup = require('yup');
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const companyCreate = yup.object().shape({
-  user_id: yup.string().uuid(),
   avatar_id: yup.string().uuid(),
   name: yup.string().required(),
   phone: yup
@@ -17,10 +16,10 @@ const companyCreate = yup.object().shape({
         yup
           .object()
           .shape({
-            day: yup.string().required(),
+            weekDay: yup.string().required(),
             delivery_hour: yup.object().shape({
-              start: yup.date().required(),
-              end: yup.date().required(),
+              start: yup.string().required(),
+              end: yup.string().required(),
             }),
           })
           .required()
@@ -32,12 +31,16 @@ const companyCreate = yup.object().shape({
         day: yup.string().required(),
         description: yup.string().required(),
         delivery_hour: yup.object().shape({
-          start: yup.date().required(),
-          end: yup.date().required(),
+          start: yup.string().required(),
+          end: yup.string().required(),
         }),
       })
     ),
   }),
+  token: yup.string().required(),
+});
+const companyCreateInvite = yup.object().shape({
+  email: yup.string().email().required(),
 });
 
-module.exports = { companyCreate };
+module.exports = { companyCreateInvite, companyCreate };
