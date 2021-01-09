@@ -3,9 +3,25 @@ const { PersistorProvider } = require('../../persist');
 
 const available_days = {
   days: [
-    { day: new Date(), delivery_hour: { start: '8:00', end: '18:00' } },
-    { day: new Date(), delivery_hour: { start: '9:00', end: '17:00' } },
-    { day: new Date(), delivery_hour: { start: '8:00', end: '17:00' } },
+    { weekDay: 'Segunda', delivery_hour: { start: '8:00', end: '18:00' } },
+    { weekDay: 'Terça', delivery_hour: { start: '9:00', end: '17:00' } },
+    { weekDay: 'Quarta', delivery_hour: { start: '8:00', end: '17:00' } },
+    { weekDay: 'Quinta', delivery_hour: { start: '8:00', end: '17:00' } },
+    { weekDay: 'Sexta', delivery_hour: { start: '8:00', end: '17:00' } },
+    { weekDay: 'Sabado', delivery_hour: { start: '8:00', end: '17:00' } },
+    { weekDay: 'Domingo', delivery_hour: { start: '8:00', end: '17:00' } },
+  ],
+  exception: [
+    {
+      day: '2021-07-01',
+      description: 'Tiradentes',
+      delivery_hour: { start: '9:00', end: '17:00' },
+    },
+    {
+      day: '2021-07-02',
+      description: 'Dia qualquer coisa',
+      delivery_hour: { start: '9:00', end: '17:00' },
+    },
   ],
 };
 

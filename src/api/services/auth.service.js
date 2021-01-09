@@ -20,18 +20,32 @@ module.exports = () => ({
           const { id, user_id, created_at, updated_at, ...comp } = company;
           return {
             ...acc,
-            user: user._id,
+            user: {
+              name: user._name,
+              email: user._email,
+              phone: user._phone,
+              cpf: user._cpf,
+              created_at: user._created_at,
+            },
+            companies: (acc.companies || []).concat({
+              id: company.id,
+              name: company.name,
+              avatar_id: company.avatar_id,
+            }),
             [company.id]: {
-              role,
               claims,
               company: comp,
             },
           };
         }, {});
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET, {
-          expiresIn: '6h',
-        });
+        const token = jwt.sign(
+          { ...payload.user, companies: payload.companies },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: '6h',
+          }
+        );
 
         redis.set(user._id, JSON.stringify(payload));
 

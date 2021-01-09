@@ -4,7 +4,7 @@ exports.up = (knex) =>
     table
       .uuid('user_id')
       .references('users.id')
-      .notNullable()
+      .nullable()
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
     table.uuid('avatar_id').references('images.id').onUpdate('CASCADE');

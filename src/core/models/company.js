@@ -85,10 +85,6 @@ class Company extends PersistedEntity {
     this._avatar_id = id;
   }
 
-  set available_days(available_days) {
-    this._available_days = this.validate_days(available_days);
-  }
-
   set phone(phone) {
     this._phone = phone;
   }
