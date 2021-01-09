@@ -38,5 +38,22 @@ module.exports = () => {
         ctx.status = 400;
       }
     },
+    async link_company(ctx) {
+      try {
+        const { id } = ctx.params;
+        const { body } = ctx.request;
+
+        await validateSchema('linkCompany', body);
+
+        const { statusCode, data } = await user.link_company(id, body.code);
+
+        ctx.body = data;
+        ctx.status = statusCode;
+      } catch (e) {
+        emitter.emit(`Error ${e}`);
+        ctx.body = e.errors || e.detail;
+        ctx.status = 400;
+      }
+    },
   };
 };

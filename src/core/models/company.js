@@ -73,6 +73,10 @@ class Company extends PersistedEntity {
       .trim();
   }
 
+  static async trx_client(obj) {
+    return this.getPersist().trx_client(obj);
+  }
+
   set cod(cod) {
     this._cod = cod;
   }

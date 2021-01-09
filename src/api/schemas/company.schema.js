@@ -39,8 +39,11 @@ const companyCreate = yup.object().shape({
   }),
   token: yup.string().required(),
 });
+const linkCompany = yup.object().shape({
+  code: yup.string().required(),
+});
 const companyCreateInvite = yup.object().shape({
   email: yup.string().email().required(),
 });
 
-module.exports = { companyCreateInvite, companyCreate };
+module.exports = { companyCreateInvite, companyCreate, linkCompany };

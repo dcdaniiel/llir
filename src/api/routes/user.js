@@ -6,6 +6,7 @@ module.exports = (opts) => {
   const router = new Router();
   router.post('/', user.create);
   router.get('/email', user.confirmation_email);
+  router.post('/:id/link', user.link_company);
 
   return router;
 };

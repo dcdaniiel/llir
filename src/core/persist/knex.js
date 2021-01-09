@@ -16,6 +16,24 @@ const {
   AuthClaims,
 } = require('../models');
 
+const permissions = async (db, trx, role, claims, user_id, company_id) => {
+  const [roleData] = await Role.findBy({ role });
+  const [client_company_id] = await trx('clients_companies').insert(
+    ClientsCompanies.serialize(
+      new ClientsCompanies(roleData.id, user_id, company_id)
+    ),
+    'id'
+  );
+
+  return Promise.all(
+    claims.map(({ _id }) =>
+      trx('user_auth').insert(
+        UserAuth.serialize(new UserAuth(client_company_id, _id))
+      )
+    )
+  );
+};
+
 function KnexPersist(db, class_, table) {
   return {
     async save(obj) {
@@ -88,29 +106,33 @@ function CompanyKnexPersist(db) {
       const { token, ...company } = obj;
 
       return db.transaction(async (trx) => {
-        const [company_id] = await db('companies').insert(company, 'id');
-        const [admin] = await Role.findBy({ role: 'admin' });
-        const [client_company_id] = await trx('clients_companies').insert(
-          ClientsCompanies.serialize(
-            new ClientsCompanies(admin.id, obj.user_id, company_id)
-          ),
-          'id'
-        );
-
         const claims = await AuthClaims.getAll();
+        const [company_id] = await db('companies').insert(company, 'id');
 
-        await Promise.all(
-          claims.map(({ _id }) =>
-            trx('user_auth').insert(
-              UserAuth.serialize(new UserAuth(client_company_id, _id))
-            )
-          )
-        );
+        return permissions(db, trx, 'admin', claims, obj.user_id, company_id);
       });
     },
 
-    async find_cod(cod) {
-      return db(table).where('cod', cod).first();
+    async trx_client(obj) {
+      return db.transaction(async (trx) => {
+        const client_claims = [
+          'may_manager_profile',
+          'may_manager_order',
+          'authenticated',
+        ];
+        const claim = (await AuthClaims.getAll()).filter(({ _claim }) =>
+          client_claims.includes(_claim)
+        );
+
+        return permissions(
+          db,
+          trx,
+          'client',
+          claim,
+          obj.user_id,
+          obj.company_id
+        );
+      });
     },
   };
 }
