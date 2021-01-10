@@ -31,7 +31,7 @@ module.exports = () => ({
       };
     }
 
-    const address = await new Address(
+    await new Address(
       street,
       number,
       city,
@@ -42,8 +42,6 @@ module.exports = () => ({
       description,
       user_id
     ).save();
-
-    console.log('CONSOLE>>', address);
 
     return {
       data: { message: 'Address created successfully!' },
