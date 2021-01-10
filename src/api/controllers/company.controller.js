@@ -50,7 +50,7 @@ module.exports = () => {
         ctx.status = statusCode;
       } catch (e) {
         emitter.emit('ERROR::', e);
-        ctx.body = e.errors || e.detail;
+        ctx.body = { message: e.errors || e.detail };
         ctx.status = 400;
       }
     },

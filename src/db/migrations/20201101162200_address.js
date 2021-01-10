@@ -12,7 +12,7 @@ exports.up = (knex) =>
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
     table.string('street', 100).notNullable();
-    table.string('number', 10).notNullable();
+    table.integer('number').notNullable();
     table.string('city', 50).notNullable();
     table.string('state', 50).notNullable();
     table.string('country', 50).notNullable();

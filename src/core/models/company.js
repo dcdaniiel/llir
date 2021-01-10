@@ -1,4 +1,3 @@
-const Ajv = require('ajv');
 const { format } = require('date-fns');
 const { PersistedEntity } = require('./base');
 

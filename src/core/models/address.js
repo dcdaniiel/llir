@@ -70,8 +70,8 @@ class Address extends PersistedEntity {
     this._zipcode = zipcode;
     this._district = district;
     this._description = description;
-    this._user_id = user_id;
-    this._company_id = company_id;
+    this._user_id = user_id || null;
+    this._company_id = company_id || null;
   }
 
   set street(street) {

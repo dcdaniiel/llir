@@ -5,9 +5,11 @@ const {
   companyCreateInvite,
   linkCompany,
 } = require('./company.schema');
+const { addressCreate } = require('./address.schema');
 
 const schemas = {
   userCreate,
+  addressCreate,
   login,
   companyCreate,
   companyCreateInvite,

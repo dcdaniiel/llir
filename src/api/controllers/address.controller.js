@@ -1,18 +1,18 @@
 const { emitter } = require('../../utils');
 const { validateSchema } = require('../schemas');
-const { AuthService } = require('../services');
+const { AddressService } = require('../services');
 
 module.exports = () => {
-  const auth = AuthService();
+  const address = AddressService();
 
   return {
     async create(ctx) {
       try {
         const { body } = ctx.request;
 
-        await validateSchema('login', body);
+        await validateSchema('addressCreate', body);
 
-        const { statusCode, data } = await auth.create(body);
+        const { statusCode, data } = await address.create(body);
 
         ctx.body = data;
         ctx.status = statusCode;
