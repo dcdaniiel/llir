@@ -13,6 +13,9 @@ class Address extends PersistedEntity {
       street: obj._street,
       number: obj._number,
       city: obj._city,
+      state: obj._state,
+      country: obj._country,
+      zipcode: obj._zipcode,
       district: obj._district,
       description: obj._description,
       created_at: obj._created_at,
@@ -26,6 +29,9 @@ class Address extends PersistedEntity {
         serialized.street,
         serialized.number,
         serialized.city,
+        serialized.state,
+        serialized.country,
+        serialized.zipcode,
         serialized.district,
         serialized.description,
         serialized.user_id,
@@ -46,6 +52,9 @@ class Address extends PersistedEntity {
     street,
     number,
     city,
+    state,
+    country,
+    zipcode,
     district,
     description,
     user_id,
@@ -56,6 +65,9 @@ class Address extends PersistedEntity {
     this._street = street;
     this._number = number;
     this._city = city;
+    this._state = state;
+    this._country = country;
+    this._zipcode = zipcode;
     this._district = district;
     this._description = description;
     this._user_id = user_id;
@@ -64,6 +76,18 @@ class Address extends PersistedEntity {
 
   set street(street) {
     this._street = street;
+  }
+
+  set state(state) {
+    this._state = state;
+  }
+
+  set country(country) {
+    this._country = country;
+  }
+
+  set zipcode(zipcode) {
+    this._zipcode = zipcode;
   }
 
   set number(number) {
@@ -92,6 +116,18 @@ class Address extends PersistedEntity {
 
   get user_id() {
     return this._user_id;
+  }
+
+  get state() {
+    return this._state;
+  }
+
+  get country() {
+    return this._country;
+  }
+
+  get zipcode() {
+    return this._zipcode;
   }
 
   get company_id() {

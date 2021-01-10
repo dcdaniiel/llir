@@ -33,14 +33,14 @@ describe('Company', () => {
       'user_test',
       'cpf1',
       'e@as2d.com',
-      '151232123',
+      '151232122',
       'PASSWD',
       new Date()
     ).save();
 
     const comp1 = await new Company(
       'Lia fruit',
-      'phone',
+      'phone1',
       available_days,
       user.id
     );

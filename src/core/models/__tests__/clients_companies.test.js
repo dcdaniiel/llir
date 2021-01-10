@@ -16,9 +16,7 @@ const _clean = async () => {
   const user = persistor.getPersistInstance('User');
   const company = persistor.getPersistInstance('Company');
   const clients_companies = persistor.getPersistInstance('ClientsCompanies');
-  const role = persistor.getPersistInstance('Role');
 
-  await role.deleteAll();
   await clients_companies.deleteAll();
   await company.deleteAll();
   await user.deleteAll();

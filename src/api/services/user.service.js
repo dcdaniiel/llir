@@ -1,6 +1,6 @@
 const { decrypt } = require('../helpers');
 const { emitter } = require('../../utils');
-const { User, Company } = require('../../core/models');
+const { User, Company, ClientsCompanies } = require('../../core/models');
 const { sendEmail } = require('./email/email.service');
 
 module.exports = () => ({
@@ -96,6 +96,18 @@ module.exports = () => ({
         };
       }
 
+      const [already_exists_link] = await ClientsCompanies.findBy({
+        company_id: company.id,
+        user_id: user.id,
+      });
+
+      if (already_exists_link) {
+        return {
+          statusCode: 400,
+          data: { message: 'Link already exist!' },
+        };
+      }
+
       await Company.trx_client({ user_id: user.id, company_id: company._id });
 
       return {
@@ -108,7 +120,5 @@ module.exports = () => ({
       data: { message: 'User or Company not found' },
       statusCode: 404,
     };
-
-    return {};
   },
 });

@@ -31,6 +31,8 @@ module.exports = () => ({
               id: company.id,
               name: company.name,
               avatar_id: company.avatar_id,
+              phone: company.phone,
+              cod: company.cod,
             }),
             [company.id]: {
               claims,
@@ -54,6 +56,7 @@ module.exports = () => ({
           statusCode: 200,
           data: {
             message: 'Successfully login!',
+            companies: payload.companies,
             token,
           },
         };

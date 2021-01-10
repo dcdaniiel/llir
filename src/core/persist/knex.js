@@ -18,6 +18,7 @@ const {
 
 const permissions = async (db, trx, role, claims, user_id, company_id) => {
   const [roleData] = await Role.findBy({ role });
+
   const [client_company_id] = await trx('clients_companies').insert(
     ClientsCompanies.serialize(
       new ClientsCompanies(roleData.id, user_id, company_id)

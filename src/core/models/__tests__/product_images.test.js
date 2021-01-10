@@ -1,4 +1,11 @@
-const { User, Company, Product, ProductImages, Image } = require('../index');
+const {
+  User,
+  Company,
+  Product,
+  ProductImages,
+  Image,
+  Category,
+} = require('../index');
 const { PersistorProvider } = require('../../persist');
 
 const available_days = {
@@ -63,16 +70,17 @@ describe('Product Image relation', () => {
 
   it('create a product_image relation', async () => {
     const [company] = await Company.getAll('asc');
+    const category = await new Category('Frutas').save();
 
-    await new Product(company.id, 'uva', 9.5, 'KG', 'frutas').save();
+    await new Product(company.id, 'uva', 9.5, 'KG', category.id).save();
+
     const prod = await new Product(
       company.id,
       'laranja',
       9.5,
       'KG',
-      'frutas'
+      category.id
     ).save();
-
     const fetch = await Product.fetch(prod.id);
 
     expect(prod.id).toBe(fetch.id);
@@ -88,14 +96,15 @@ describe('Product Image relation', () => {
 
   it('delete a product_image relation', async () => {
     const [company] = await Company.getAll();
+    const category = await new Category('Frutas').save();
 
-    await new Product(company.id, 'uva', 9.5, 'KG', 'frutas').save();
+    await new Product(company.id, 'uva', 9.5, 'KG', category.id).save();
     const prod = await new Product(
       company.id,
       'laranja',
       9.5,
       'KG',
-      'frutas'
+      category.id
     ).save();
 
     const fetch = await Product.fetch(prod.id);
