@@ -45,7 +45,7 @@ beforeEach(async () => {
 
   await company.save();
 
-  const category = await new Category('frutas').save();
+  const category = await new Category('frutas', company.id).save();
 
   await new Product(company.id, 'morango', 9.5, 'KG', category.id).save();
   await new Product(company.id, 'banana', 9.5, 'KG', category.id).save();

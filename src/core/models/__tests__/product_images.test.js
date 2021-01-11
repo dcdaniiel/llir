@@ -70,7 +70,7 @@ describe('Product Image relation', () => {
 
   it('create a product_image relation', async () => {
     const [company] = await Company.getAll('asc');
-    const category = await new Category('Frutas').save();
+    const category = await new Category('Frutas', company.id).save();
 
     await new Product(company.id, 'uva', 9.5, 'KG', category.id).save();
 
@@ -96,7 +96,7 @@ describe('Product Image relation', () => {
 
   it('delete a product_image relation', async () => {
     const [company] = await Company.getAll();
-    const category = await new Category('Frutas').save();
+    const category = await new Category('Frutas', company.id).save();
 
     await new Product(company.id, 'uva', 9.5, 'KG', category.id).save();
     const prod = await new Product(

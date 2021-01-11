@@ -6,7 +6,7 @@ module.exports = (opts) => {
   const uploadCtl = UploadController();
   const router = new Router();
 
-  router.post('/single', upload.single('test'), uploadCtl.create);
+  router.post('/single', upload.single('single'), uploadCtl.create);
 
   return router;
 };

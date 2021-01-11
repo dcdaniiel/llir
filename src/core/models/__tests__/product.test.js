@@ -55,14 +55,14 @@ beforeEach(async () => {
 
 describe('Product', () => {
   it('constructor works', () => {
-    const company = new Product('');
-    expect(company).toBeInstanceOf(Product);
+    const product = new Product('');
+    expect(product).toBeInstanceOf(Product);
   });
 
   it('create a product', async () => {
-    const category = await new Category('frutas').save();
-
     const [company] = await Company.getAll();
+
+    const category = await new Category('frutas', company.id).save();
 
     await new Product(company.id, 'morango', 9.5, 'KG', category.id).save();
     await new Product(company.id, 'banana', 9.5, 'KG', category.id).save();
@@ -81,8 +81,8 @@ describe('Product', () => {
   });
 
   it('update product', async () => {
-    const category = await new Category('frutas').save();
     const [company] = await Company.getAll();
+    const category = await new Category('frutas', company.id).save();
 
     const prod = await new Product(
       company.id,
@@ -105,8 +105,8 @@ describe('Product', () => {
   });
 
   it('delete product', async () => {
-    const category = await new Category('frutas').save();
     const [company] = await Company.getAll();
+    const category = await new Category('frutas', company.id).save();
 
     const prod = await new Product(
       company.id,
