@@ -20,4 +20,7 @@ module.exports = {
     const get = promisify(client.get).bind(client);
     return get(key);
   },
+  async sadd(key, list) {
+    return client.sadd(key, list);
+  },
 };

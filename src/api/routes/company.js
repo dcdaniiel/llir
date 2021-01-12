@@ -8,6 +8,7 @@ module.exports = (opts) => {
   router.post('/', company.create);
   router.post('/confirmation', company.invite_creation);
   router.get('/', company.list);
+  router.get('/:cod', company.products);
 
   return router;
 };

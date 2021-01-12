@@ -1,7 +1,7 @@
 const { isWithinInterval, sub } = require('date-fns');
 const { emitter } = require('../../utils');
-const { Company, User } = require('../../core/models');
-const { confirm_email, decrypt } = require('../helpers');
+const { Company, User, Product, Category } = require('../../core/models');
+const { confirm_email, decrypt, redis } = require('../helpers');
 const { sendEmail } = require('./email/email.service');
 
 module.exports = () => {
@@ -149,6 +149,50 @@ module.exports = () => {
       return {
         data: { message: 'Token expired! ' },
         statusCode: 400,
+      };
+    },
+
+    async products(cod) {
+      if (!cod) {
+        return {
+          statusCode: 400,
+          data: { message: 'Invalid Cod' },
+        };
+      }
+
+      const [company] = await Company.findBy({ cod });
+
+      if (!company) {
+        return {
+          statusCode: 404,
+          data: { message: 'Invalid cod' },
+        };
+      }
+
+      const company_id = company.id;
+      const cached = await redis.get(company_id);
+
+      if (cached) {
+        return {
+          statusCode: 200,
+          data: { message: 'list products', products: JSON.parse(cached) },
+        };
+      }
+
+      const products = await Product.findBy({ company_id });
+
+      const products_deserialized = await Promise.all(
+        products.map(async ({ _category_id, _company_id, ...rest }) => {
+          const { _name } = await Category.fetch(_category_id);
+          return { ...rest, _category: _name };
+        })
+      );
+
+      await redis.set(company_id, JSON.stringify(products_deserialized));
+
+      return {
+        statusCode: 200,
+        data: { message: 'Ok', products: products_deserialized },
       };
     },
   };
