@@ -3,6 +3,7 @@ const UserController = require('./user.controller');
 const CompanyController = require('./company.controller');
 const AddressController = require('./address.controller');
 const UploadController = require('./upload.controller');
+const CategoryController = require('./category.controller');
 
 module.exports = {
   AuthController,
@@ -10,4 +11,5 @@ module.exports = {
   CompanyController,
   AddressController,
   UploadController,
+  CategoryController,
 };

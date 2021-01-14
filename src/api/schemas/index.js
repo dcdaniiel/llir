@@ -7,9 +7,11 @@ const {
 } = require('./company.schema');
 const { addressCreate } = require('./address.schema');
 const { createProduct } = require('./product.schema');
+const { categoryCreate } = require('./category.schema');
 
 const schemas = {
   userCreate,
+  categoryCreate,
   addressCreate,
   login,
   companyCreate,

@@ -175,7 +175,7 @@ module.exports = () => {
       if (cached) {
         return {
           statusCode: 200,
-          data: { message: 'list products', products: JSON.parse(cached) },
+          data: { message: 'list products', products: cached },
         };
       }
 
@@ -208,7 +208,7 @@ module.exports = () => {
 
       const name = product.name.trim().toLowerCase();
 
-      const data = JSON.parse(await redis.get(user_id));
+      const data = await redis.get(user_id);
 
       if (!data) {
         return {
@@ -226,7 +226,9 @@ module.exports = () => {
         };
       }
 
-      const permission = company.claims.includes('may_manager_product');
+      const permission =
+        company.role === 'admin' ||
+        company.claims.includes('may_manager_product');
 
       if (!permission) {
         return {

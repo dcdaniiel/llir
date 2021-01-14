@@ -16,6 +16,8 @@ const {
   AuthClaims,
 } = require('../models');
 
+const { getClaimsByClientCompanyID } = require('../../api/helpers/sql');
+
 const permissions = async (db, trx, role, claims, user_id, company_id) => {
   const [roleData] = await Role.findBy({ role });
 
@@ -83,6 +85,10 @@ function KnexPersist(db, class_, table) {
           ...obj,
           updated_at: new Date(),
         });
+    },
+
+    async raw(query) {
+      return db.raw(query);
     },
   };
 }
@@ -228,19 +234,16 @@ function UserAuthKnexPersist(db) {
       const client_company = await ClientsCompanies.findBy({ user_id });
 
       return Promise.all(
-        client_company.map(async ({ _id, _role_id, _company_id }) => ({
-          company: Company.serialize(await Company.fetch(_company_id)),
-          role: (await Role.fetch(_role_id))._role,
-          claims: await Promise.all(
-            (await UserAuth.findBy({ client_company: _id })).map(
-              async ({ _auth_claim }) => {
-                const { claim } = await AuthClaims.fetch(_auth_claim);
+        client_company.map(async ({ _id, _role_id, _company_id }) => {
+          const userClaim = await User.raw(getClaimsByClientCompanyID(_id));
+          const claims = userClaim.rows.map(({ claim }) => claim);
 
-                return claim;
-              }
-            )
-          ),
-        }))
+          return {
+            company: Company.serialize(await Company.fetch(_company_id)),
+            role: (await Role.fetch(_role_id))._role,
+            claims,
+          };
+        })
       );
     },
   };

@@ -10,6 +10,10 @@ class BaseEntity {
     throw Error('Subclass and implement');
   }
 
+  static raw(query) {
+    return this.getPersist().raw(query);
+  }
+
   constructor() {
     this._id = uuid();
     this._created_at = new Date();

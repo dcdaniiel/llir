@@ -18,7 +18,7 @@ module.exports = {
   },
   async get(key) {
     const get = promisify(client.get).bind(client);
-    return get(key);
+    return JSON.parse(await get(key));
   },
   async sadd(key, list) {
     return client.sadd(key, list);
