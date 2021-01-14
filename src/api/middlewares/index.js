@@ -9,9 +9,10 @@ const setApp = (app) => {
   };
 };
 
-// const jwtMiddleware = jwt({ secret: jwksRsa.koaJwtSecret() });
+const jwtMiddleware = jwt({ secret: process.env.JWT_SECRET });
 
 module.exports = {
   setApp,
+  jwtMiddleware,
   upload,
 };

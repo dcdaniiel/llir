@@ -4,6 +4,7 @@ const logger = require('koa-logger');
 const route = require('./routes');
 const { startLogger, emitter } = require('../utils');
 const { PersistorProvider } = require('../core/persist');
+const { jwtMiddleware } = require('./middlewares');
 
 const corsOptions = {
   origin: '*',
@@ -19,8 +20,8 @@ const startServer = async (port) => {
   app.use(logger());
   app.use(cors(corsOptions));
 
-  const routes = route(app, {
-    middlewares: [],
+  const routes = route({
+    middlewares: [jwtMiddleware],
     corsOptions,
   });
 
@@ -36,6 +37,8 @@ const startServer = async (port) => {
     } catch (error) {
       emitter.emit(`error handler: ${error}`);
       ctx.status = 500;
+      ctx.body = error;
+
       if (error && error.status) {
         ctx.status = error.status;
       }

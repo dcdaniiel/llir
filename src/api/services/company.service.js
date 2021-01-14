@@ -195,5 +195,63 @@ module.exports = () => {
         data: { message: 'Ok', products: products_deserialized },
       };
     },
+
+    async product(cod, product, user_id) {
+      if (!cod || !product) {
+        return {
+          statusCode: 400,
+          data: { message: 'Missing data' },
+        };
+      }
+
+      const { company_id, category_id, price, type } = product;
+
+      const name = product.name.trim().toLowerCase();
+
+      const data = JSON.parse(await redis.get(user_id));
+
+      if (!data) {
+        return {
+          statusCode: 401,
+          data: { message: 'Unauthorized' },
+        };
+      }
+
+      const company = data[company_id];
+
+      if (!company) {
+        return {
+          data: { message: 'Invalid company' },
+          statusCode: 400,
+        };
+      }
+
+      const permission = company.claims.includes('may_manager_product');
+
+      if (!permission) {
+        return {
+          data: { message: 'Unauthorized' },
+          statusCode: 401,
+        };
+      }
+
+      const [exists_product] = await Product.findBy({ company_id, name });
+
+      if (exists_product) {
+        return {
+          data: { message: 'Already exists this product registered!' },
+          statusCode: 409,
+        };
+      }
+
+      await new Product(company_id, name, price, type, category_id).save();
+
+      redis.expireAt(company_id, 60);
+
+      return {
+        statusCode: 201,
+        data: { message: 'Product create successfully' },
+      };
+    },
   };
 };

@@ -21,6 +21,7 @@ module.exports = () => ({
           return {
             ...acc,
             user: {
+              id: user._id,
               name: user._name,
               email: user._email,
               phone: user._phone,

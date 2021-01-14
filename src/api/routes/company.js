@@ -10,5 +10,9 @@ module.exports = (opts) => {
   router.get('/', company.list);
   router.get('/:cod', company.products);
 
+  opts.middlewares.forEach((middleware) => router.use(middleware));
+
+  router.post('/:cod', company.product);
+
   return router;
 };

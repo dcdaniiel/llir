@@ -6,6 +6,7 @@ const {
   linkCompany,
 } = require('./company.schema');
 const { addressCreate } = require('./address.schema');
+const { createProduct } = require('./product.schema');
 
 const schemas = {
   userCreate,
@@ -14,6 +15,7 @@ const schemas = {
   companyCreate,
   companyCreateInvite,
   linkCompany,
+  createProduct,
 };
 
 const validateSchema = (schema, obj) => schemas[schema].validate(obj);

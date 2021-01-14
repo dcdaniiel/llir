@@ -68,5 +68,23 @@ module.exports = () => {
         ctx.status = 400;
       }
     },
+    async product(ctx) {
+      try {
+        const { cod } = ctx.params;
+        const { body } = ctx.request;
+        const { user } = ctx.state;
+
+        await validateSchema('createProduct', body);
+
+        const { data, statusCode } = await company.product(cod, body, user.id);
+
+        ctx.body = data;
+        ctx.status = statusCode;
+      } catch (e) {
+        emitter.emit('ERROR::', e);
+        ctx.body = e.errors || e.detail;
+        ctx.status = 400;
+      }
+    },
   };
 };

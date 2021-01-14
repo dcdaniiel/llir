@@ -3,9 +3,9 @@ const { createClient } = require('redis');
 const { emitter } = require('../../utils');
 
 const client = createClient({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  password: process.env.REDIS_PASSWORD,
+  host: process.env.REDIS_PERMISSION_HOST,
+  port: process.env.REDIS_PERMISSION_PORT,
+  password: process.env.REDIS_PERMISSION_PASSWORD,
 });
 
 client.on('connect', () => emitter.emit('Redis connected successfully'));
@@ -22,5 +22,9 @@ module.exports = {
   },
   async sadd(key, list) {
     return client.sadd(key, list);
+  },
+
+  async expireAt(key, time) {
+    return client.expireat(key, time);
   },
 };
