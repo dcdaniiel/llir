@@ -8,4 +8,17 @@ const getClaimsByClientCompanyID = (client_company_id) => `
         WHERE ua.client_company = '${client_company_id}'
       `;
 
-module.exports = { categoryByCompany, getClaimsByClientCompanyID };
+const selectProductsByIds = (ids) => {
+  const query = ids.reduce(
+    (acc, uuid, index) =>
+      acc.concat(`'${uuid}'${ids.length - 1 !== index ? ', ' : ''}`),
+    ''
+  );
+  return `SELECT id, name, type, price FROM products WHERE id IN (${query})`;
+};
+
+module.exports = {
+  categoryByCompany,
+  getClaimsByClientCompanyID,
+  selectProductsByIds,
+};

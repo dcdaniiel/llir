@@ -1,4 +1,5 @@
 const bcryptjs = require('bcryptjs');
+const { emitter } = require('../../utils');
 const {
   User,
   Category,
@@ -14,9 +15,13 @@ const {
   OrderDetail,
   UserAuth,
   AuthClaims,
+  OrderStatus,
 } = require('../models');
 
-const { getClaimsByClientCompanyID } = require('../../api/helpers/sql');
+const {
+  getClaimsByClientCompanyID,
+  selectProductsByIds,
+} = require('../../api/helpers/sql');
 
 const permissions = async (db, trx, role, claims, user_id, company_id) => {
   const [roleData] = await Role.findBy({ role });
@@ -192,23 +197,46 @@ function OrderKnexPersist(db) {
         const { items, ...order } = obj;
 
         if (items.length) {
-          const [order_data] = await trx('orders').insert(order, '*');
-          await Promise.all(
-            items.map((item) => {
-              return trx('order_detail').insert(
+          const ids = items.map(({ id }) => id);
+
+          const { rows: products } = await Product.raw(
+            selectProductsByIds(ids)
+          );
+
+          if (!products.length) {
+            return {
+              statusCode: 404,
+              data: { message: 'Invalid products id!' },
+            };
+          }
+
+          const validated_product = products.map((product) => {
+            const { quantity } = items.find((item) => item.id === product.id);
+            return {
+              ...product,
+              quantity,
+              total: product.price * quantity,
+            };
+          });
+
+          const total = validated_product.reduce((a, n) => a + n.total, 0);
+
+          const [order_data] = await trx('orders').insert(
+            { ...order, total },
+            '*'
+          );
+
+          const detail = await Promise.all(
+            validated_product.map(async ({ name, price, type, quantity }) =>
+              trx('order_detail').insert(
                 OrderDetail.serialize(
-                  new OrderDetail(
-                    order_data.id,
-                    item._name,
-                    item._price,
-                    item._type,
-                    item._quantity
-                  )
+                  new OrderDetail(order_data.id, name, price, type, quantity)
                 ),
                 '*'
-              );
-            })
+              )
+            )
           );
+
           return 'Order successfully created!';
         }
 

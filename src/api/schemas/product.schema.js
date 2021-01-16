@@ -6,6 +6,7 @@ const createProduct = yup.object().shape({
   name: yup.string().required(),
   price: yup.number().required(),
   type: yup.string().required(),
+  description: yup.string(),
 });
 
 module.exports = { createProduct };

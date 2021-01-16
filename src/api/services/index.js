@@ -5,6 +5,7 @@ const CompanyService = require('./company.service');
 const EmailService = require('./email/workerSendMail');
 const UploadService = require('./upload.service');
 const CategoryService = require('./category.service');
+const OrderService = require('./order.service');
 
 module.exports = {
   UserService,
@@ -14,4 +15,5 @@ module.exports = {
   EmailService,
   AddressService,
   UploadService,
+  OrderService,
 };

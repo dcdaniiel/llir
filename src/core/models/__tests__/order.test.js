@@ -71,8 +71,8 @@ describe('Order', () => {
     const [product, ...products] = await Product.getAll();
 
     const setQuantityProducts = [product, ...products].map((order, index) => ({
-      ...order,
-      _quantity: index * 2,
+      id: order._id,
+      quantity: index * 2,
     }));
 
     const pay = await new Payment(

@@ -100,7 +100,6 @@ module.exports = () => {
         statusCode: 404,
       };
     },
-
     async validate_confirmation(confirmation) {
       const [iv, key, encryptedData] = confirmation.split('.');
 
@@ -188,14 +187,23 @@ module.exports = () => {
         })
       );
 
+      if (!products_deserialized.length) {
+        return {
+          statusCode: 204,
+          data: {
+            message: 'Without products registered!',
+            products: products_deserialized,
+          },
+        };
+      }
+
       await redis.set(company_id, JSON.stringify(products_deserialized));
 
       return {
         statusCode: 200,
-        data: { message: 'Ok', products: products_deserialized },
+        data: { message: 'Products', products: products_deserialized },
       };
     },
-
     async product(cod, product, user_id) {
       if (!cod || !product) {
         return {

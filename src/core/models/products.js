@@ -11,6 +11,7 @@ class Product extends PersistedEntity {
       name: obj._name,
       price: obj._price,
       type: obj._type,
+      description: obj._description,
       category_id: obj._category_id,
       company_id: obj._company_id,
       updated_at: obj._updated_at,
@@ -25,7 +26,8 @@ class Product extends PersistedEntity {
         serialized.name,
         serialized.price,
         serialized.type,
-        serialized.category_id
+        serialized.category_id,
+        serialized.description
       );
 
       product._id = serialized.id;
@@ -38,7 +40,7 @@ class Product extends PersistedEntity {
     return undefined;
   }
 
-  constructor(company_id, name, price, type, category_id) {
+  constructor(company_id, name, price, type, category_id, description) {
     super();
 
     this._company_id = company_id;
@@ -46,6 +48,7 @@ class Product extends PersistedEntity {
     this._price = price;
     this._type = type;
     this._category_id = category_id;
+    this._description = description;
   }
 
   get company_id() {

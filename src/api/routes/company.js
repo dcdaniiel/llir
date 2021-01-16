@@ -1,9 +1,14 @@
 const Router = require('koa-router');
-const { CompanyController, CategoryController } = require('../controllers');
+const {
+  CompanyController,
+  CategoryController,
+  OrdersController,
+} = require('../controllers');
 
 module.exports = (opts) => {
   const company = CompanyController();
   const category = CategoryController();
+  const orders = OrdersController();
   const router = new Router();
 
   router.post('/', company.create);
@@ -13,8 +18,9 @@ module.exports = (opts) => {
 
   opts.middlewares.forEach((middleware) => router.use(middleware));
 
-  router.get('/:cod/category', category.list);
-  router.post('/:cod/category', category.create);
+  router.get('/:cod/categories', category.list);
+  router.post('/:cod/categories', category.create);
+  router.post('/:cod/orders', orders.create);
   router.post('/:cod', company.product);
 
   return router;
