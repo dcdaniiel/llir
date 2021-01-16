@@ -41,7 +41,10 @@ module.exports = () => ({
 
     return {
       statusCode: 200,
-      data: { message: 'Order create successfully', order: { id: order.id } },
+      data: {
+        message: 'Order create successfully',
+        order: { id: order.id, delivery_day: order.delivery_day },
+      },
     };
   },
 });

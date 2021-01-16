@@ -1,5 +1,4 @@
 const bcryptjs = require('bcryptjs');
-const { emitter } = require('../../utils');
 const {
   User,
   Category,
@@ -15,7 +14,6 @@ const {
   OrderDetail,
   UserAuth,
   AuthClaims,
-  OrderStatus,
 } = require('../models');
 
 const {
@@ -236,11 +234,6 @@ function OrderKnexPersist(db) {
               )
             )
           );
-
-          emitter.emit(OrderStatus.WAITING_APPROVAL(), {
-            topic: `notify/order/${order_data.id}`,
-            content: { ...order, total, detail: detail.flat() },
-          });
 
           return 'Order successfully created!';
         }
