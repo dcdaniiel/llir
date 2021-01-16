@@ -33,6 +33,10 @@ class Order extends PersistedEntity {
     };
   }
 
+  static async list(where) {
+    return this.getPersist().list(where);
+  }
+
   static deserialize(serialized) {
     if (serialized) {
       const order = new Order(

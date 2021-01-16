@@ -26,8 +26,9 @@ module.exports = () => {
     async list(ctx) {
       try {
         const { cod } = ctx.params;
+        const { user } = ctx.state;
 
-        const { statusCode, data } = await category.list(cod);
+        const { statusCode, data } = await order.list({ cod, user });
 
         ctx.body = data;
         ctx.status = statusCode;

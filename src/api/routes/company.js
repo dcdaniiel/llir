@@ -21,6 +21,7 @@ module.exports = (opts) => {
   router.get('/:cod/categories', category.list);
   router.post('/:cod/categories', category.create);
   router.post('/:cod/orders', orders.create);
+  router.get('/:cod/orders', orders.list);
   router.post('/:cod', company.product);
 
   return router;
