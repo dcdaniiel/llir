@@ -2,7 +2,8 @@ const Koa = require('koa');
 const cors = require('koa2-cors');
 const logger = require('koa-logger');
 const route = require('./routes');
-const { startLogger, emitter } = require('../utils');
+const { startListeners } = require('./helpers');
+const { startLogger, emitter, mqttClient } = require('../utils');
 const { PersistorProvider } = require('../core/persist');
 const { jwtMiddleware } = require('./middlewares');
 
@@ -15,7 +16,10 @@ const corsOptions = {
 const startServer = async (port) => {
   const app = new Koa();
 
+  await mqttClient.connect();
+
   startLogger(emitter);
+  startListeners();
 
   app.use(logger());
   app.use(cors(corsOptions));

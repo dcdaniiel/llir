@@ -7,7 +7,7 @@ const { ClientsCompanies } = require('./clients_companies');
 const { Product } = require('./products');
 const { ProductImages } = require('./product_images');
 const { Payment } = require('./payment');
-const { Order } = require('./order');
+const { Order, OrderStatus } = require('./order');
 const { OrderDetail } = require('./order_detail');
 const { Category } = require('./category');
 const { AuthClaims } = require('./auth_claims');
@@ -29,4 +29,5 @@ module.exports = {
   Payment,
   Order,
   OrderDetail,
+  OrderStatus,
 };

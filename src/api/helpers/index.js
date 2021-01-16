@@ -1,7 +1,14 @@
 const { confirm_email } = require('./user_confirmed');
-const { workerPool } = require('../services/email/workerSendMail');
 const { decrypt, encrypt } = require('./encrypt_descrypt');
 const redis = require('./redis');
 const sql = require('./sql');
+const { startListeners } = require('./listeners');
 
-module.exports = { confirm_email, workerPool, decrypt, encrypt, redis, sql };
+module.exports = {
+  startListeners,
+  confirm_email,
+  decrypt,
+  encrypt,
+  redis,
+  sql,
+};

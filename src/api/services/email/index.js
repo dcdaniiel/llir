@@ -16,9 +16,10 @@ const sendEmail = (template, user, result) => {
   const email = {
     from: 'contato@dcdaniiel.dev',
     subject: content.subject,
-    to: user.email,
+    to: user._email,
     html: content.html,
   };
+
   return remetente.sendMail(email, result);
 };
 

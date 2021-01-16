@@ -1,15 +1,15 @@
 const { redis } = require('../helpers');
-const { Order, OrderDetail, Payment } = require('../../core/models');
+const { Order, OrderStatus, Payment } = require('../../core/models');
 
 module.exports = () => ({
   async create({ body, cod, user }) {
-    const data = await redis.get(user.id);
+    const data = await redis.get(`session:${user.id}`);
     const company = data?.companies.find((cp) => cp.cod === cod);
 
     if (!company) {
       return {
-        data: { message: 'Company not found' },
-        statusCode: 200,
+        data: { message: 'Session! Please try login again!' },
+        statusCode: 401,
       };
     }
 
@@ -28,7 +28,7 @@ module.exports = () => ({
       };
     }
 
-    await new Order(
+    const order = await new Order(
       user.id,
       company.id,
       payment.id,
@@ -36,12 +36,12 @@ module.exports = () => ({
       '',
       body.description,
       body.items,
-      'AWAITING APPROVAL'
+      OrderStatus.WAITING_APPROVAL()
     ).save();
 
     return {
       statusCode: 200,
-      data: { message: 'OK' },
+      data: { message: 'Order create successfully', order: { id: order.id } },
     };
   },
 });

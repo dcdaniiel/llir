@@ -51,7 +51,7 @@ module.exports = () => ({
           }
         );
 
-        redis.set(user._id, JSON.stringify(payload));
+        redis.set(`session:${user._id}`, JSON.stringify(payload));
 
         return {
           statusCode: 200,

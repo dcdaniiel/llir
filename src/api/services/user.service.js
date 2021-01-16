@@ -1,7 +1,8 @@
 const { decrypt } = require('../helpers');
 const { emitter } = require('../../utils');
 const { User, Company, ClientsCompanies } = require('../../core/models');
-const { sendEmail } = require('./email/email.service');
+const { sendEmail } = require('./email');
+const Queue = require('./queue.service');
 
 module.exports = () => ({
   async create(body) {
@@ -17,9 +18,7 @@ module.exports = () => ({
       cod
     ).save();
 
-    sendEmail('email_confirmation', user).then((msg) =>
-      emitter.emit(`Email: ${JSON.stringify(msg)}`)
-    );
+    await Queue.add('SendMail', { template: 'email_confirmation', user });
 
     return {
       statusCode: 201,
@@ -55,7 +54,7 @@ module.exports = () => ({
       user.email_confirmed = true;
       await user.save();
 
-      sendEmail('email_confirmed', user);
+      await Queue.add('SendMail', { template: 'email_confirmed', user });
 
       return {
         statusCode: 200,

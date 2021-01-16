@@ -8,6 +8,7 @@ const Upload = require('./upload');
 
 module.exports = (opts) => {
   const router = new Router({ prefix: '/api' });
+
   router.use(bodyParser());
   router.use('/auth', Auth(opts).routes());
   router.use('/users', User(opts).routes());

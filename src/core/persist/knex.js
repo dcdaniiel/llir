@@ -237,6 +237,11 @@ function OrderKnexPersist(db) {
             )
           );
 
+          emitter.emit(OrderStatus.WAITING_APPROVAL(), {
+            topic: `notify/order/${order_data.id}`,
+            content: { ...order, total, detail: detail.flat() },
+          });
+
           return 'Order successfully created!';
         }
 

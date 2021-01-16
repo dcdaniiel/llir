@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server.js",
+    "dev:queue": "nodemon src/queue.js",
     "dev:debug": "nodemon --inspect src/server.js",
     "tests": "jest --runInBand --detectOpenHandles",
     "seeds": "knex --env ${NODE_ENV} --knexfile knexfile.js seed:run",
@@ -22,7 +23,9 @@
   "homepage": "https://github.com/dcdaniiel/dot-collector#readme",
   "dependencies": {
     "@koa/multer": "^3.0.0",
+    "async-mqtt": "^2.6.1",
     "bcryptjs": "^2.4.3",
+    "bull": "^3.20.0",
     "date-fns": "^2.16.1",
     "dotenv": "^8.2.0",
     "eventemitter2": "^6.4.3",

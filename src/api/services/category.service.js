@@ -5,14 +5,14 @@ const { redis } = require('../helpers');
 
 module.exports = () => ({
   async create({ name, cod, user }) {
-    const data = await redis.get(user.id);
+    const data = await redis.get(`session:${user.id}`);
 
     const company = data?.companies.find((cp) => cp.cod === cod);
 
     if (!company) {
       return {
         data: { message: 'Company not found' },
-        statusCode: 200,
+        statusCode: 404,
       };
     }
 

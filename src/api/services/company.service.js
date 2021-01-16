@@ -1,8 +1,7 @@
 const { isWithinInterval, sub } = require('date-fns');
-const { emitter } = require('../../utils');
 const { Company, User, Product, Category } = require('../../core/models');
 const { confirm_email, decrypt, redis } = require('../helpers');
-const { sendEmail } = require('./email/email.service');
+const Queue = require('./queue.service');
 
 module.exports = () => {
   const generate_cod = async (name) => {
@@ -85,9 +84,10 @@ module.exports = () => {
           };
         }
 
-        sendEmail('email_confirmation_company', user).then((msg) =>
-          emitter.emit(`Email: ${JSON.stringify(msg)}`)
-        );
+        await Queue.add('SendMail', {
+          template: 'email_confirmation_company',
+          user,
+        });
 
         return {
           data: { message: `Invite sended to ${user.email}` },
@@ -169,7 +169,7 @@ module.exports = () => {
       }
 
       const company_id = company.id;
-      const cached = await redis.get(company_id);
+      const cached = await redis.get(`products:${company_id}`, 2);
 
       if (cached) {
         return {
@@ -197,7 +197,10 @@ module.exports = () => {
         };
       }
 
-      await redis.set(company_id, JSON.stringify(products_deserialized));
+      await redis.set(
+        `products:${company_id}`,
+        JSON.stringify(products_deserialized)
+      );
 
       return {
         statusCode: 200,
@@ -216,7 +219,7 @@ module.exports = () => {
 
       const name = product.name.trim().toLowerCase();
 
-      const data = await redis.get(user_id);
+      const data = await redis.get(`session:${user_id}`);
 
       if (!data) {
         return {
